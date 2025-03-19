@@ -5,11 +5,16 @@ public class CompetitionEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public uint Id { get; set; }
 
+    [StringLength(128)]
     [Required]
-    [StringLength(32)]
-    public string Date { get; set; }
+    public string PublicId { get; set; }
 
     [Required]
+    [StringLength(32)]
+    public DateTime Date { get; set; }
+
+    [Required]
+    [StringLength(128)]
     public string Name { get; set; }
 
     [Required]
@@ -18,9 +23,9 @@ public class CompetitionEntity
 
     public virtual StreetEntity Street { get; set; }
 
-    public virtual IReadOnlyCollection<TeamEntity> Team { get; set; }
+    public virtual IReadOnlyCollection<TeamEntity> Teams { get; set; }
 
-    public virtual IReadOnlyCollection<JuryEntity> Jury { get; set; }
+    public virtual IReadOnlyCollection<JuryEntity> Juries { get; set; }
 }
 
 
