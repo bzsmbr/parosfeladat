@@ -1,0 +1,3 @@
+{
+  "SqlConnectionString": "Data Source=(LocalDB)\\MSSQLLocalDB;Database=SimpleMovieDB;Trusted_Connection=True;MultipleActiveResultSets=True;TrustServerCertificate=True;"
+}
