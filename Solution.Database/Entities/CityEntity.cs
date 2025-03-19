@@ -1,0 +1,16 @@
+﻿[Table("City")]
+[Index(nameof(Name), IsUnique = true)]
+public class CityEntity
+{
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [Range(1000, 9999)]
+    public uint PostalCode { get; set; }
+
+    [Required]
+    [StringLength(32)]
+    public string Name { get; set; }
+
+    public virtual IReadOnlyCollection<StreetEntity> Streets { get; set; }
+}
+
