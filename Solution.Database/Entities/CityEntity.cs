@@ -3,7 +3,10 @@
 public class CityEntity
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public uint Id { get; set; }
+
+    [Required]
     [Range(1000, 9999)]
     public uint PostalCode { get; set; }
 

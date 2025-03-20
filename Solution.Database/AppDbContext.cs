@@ -35,9 +35,9 @@ public class AppDbContext() : DbContext
 #if DEBUG
 		var file = "appSettings.Development.json";
 #else
-        var file = "connectionString.Production.json";
+        var file = "appSettings.Production.json";
 #endif
-		var stream = new MemoryStream(File.ReadAllBytes($"{file}"));
+        var stream = new MemoryStream(File.ReadAllBytes($"{file}"));
 
 		var config = new ConfigurationBuilder()
 					.AddJsonStream(stream)

@@ -6,13 +6,18 @@ public class TeamEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public uint Id { get; set; }
 
+    [StringLength(128)]
     [Required]
+    public string PublicId { get; set; }
+
+    [Required]
+    [StringLength(32)]
     public string Name { get; set; }
 
     [Required]
-    public uint Points { get; set; }
+    public uint? Points { get; set; }
 
-    public virtual IReadOnlyCollection<CompetitionEntity> Competition { get; set; }
+    public virtual IReadOnlyCollection<CompetitionEntity> Competitions { get; set; }
 
     public virtual IReadOnlyCollection<TeamMemberEntity> TeamMembers { get; set; }
 }
