@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Solution.Core.Interfaces
+namespace Solution.Services.Services
 {
-    internal interface ITeamMemberService
+    internal class CompetitionService
     {
     }
 }
