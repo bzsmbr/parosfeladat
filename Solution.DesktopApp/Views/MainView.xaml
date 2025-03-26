@@ -5,9 +5,9 @@
              x:DataType="viewModel:MainViewModel"
              x:Class="Solution.DesktopApp.MainView">
 
-    <Grid VerticalOptions="Center" HorizontalOptions="Center">
-        <Label Text="Motorcycle Data Base" Style="{StaticResource PageTitle}" />
-        <Image Source="motorcycle.png" Aspect="AspectFit" Margin="100"/>
+    <Grid VerticalOptions="Center" HorizontalOptions="Center" Margin="50">
+        <Label Text="Ratatouille competition" Style="{StaticResource PageTitle}" VerticalOptions="Start" HorizontalOptions="Start" FontSize="Large"/>
+        <Image Source="lecsofozoalap.jpg" Aspect="AspectFill" Margin="0, 200, 0, 50"/>
     </Grid>
 
 </ContentPage>

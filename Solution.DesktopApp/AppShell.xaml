@@ -5,10 +5,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Solution.DesktopApp"
     xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
-    xmlns:views="clr-namespace:Solution.DesktopApp.Views"
     x:DataType="viewModels:AppShellViewModel"
     Shell.FlyoutBehavior="Disabled"
-    Title="Motorcycle Database"
+    Title="Ratatouille competition"
     BackgroundColor="Black">
 
     <Shell.Resources>
@@ -20,8 +19,55 @@
     </Shell.Resources>
 
     <Shell.MenuBarItems>
+        <MenuBarItem Text="Exit">
+            <MenuFlyoutItem Text="Exit" Command="{Binding ExitCommand}" />
+        </MenuBarItem>
 
-      </Shell.MenuBarItems>
+        <MenuBarItem Text="Competition">
+            <MenuFlyoutItem Text="Add New" Command="{Binding AddNewCompCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+
+            <MenuFlyoutItem Text="List All" Command="{Binding ListAllCompsCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black" />
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+
+        <MenuBarItem Text="Jury">
+            <MenuFlyoutItem Text="Add New" Command="{Binding AddNewJuryCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+
+            <MenuFlyoutItem Text="List All" Command="{Binding ListAllJuriesCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black" />
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+
+        <MenuBarItem Text="Team">
+            <MenuFlyoutItem Text="Add New" Command="{Binding AddNewTeamCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+
+            <MenuFlyoutItem Text="List All" Command="{Binding ListAllTeamsCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black" />
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+        </MenuBarItem>
+
+
+
+    </Shell.MenuBarItems>
 
     <ShellContent Style="{StaticResource ShellContentStyle}"
                   ContentTemplate="{DataTemplate local:MainView}"
