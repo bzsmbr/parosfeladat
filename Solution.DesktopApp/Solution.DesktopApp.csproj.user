@@ -11,6 +11,14 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <MauiXaml Update="Views\CompListView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Views\CompCreateOrEditView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="App.xaml">
       <SubType>Designer</SubType>
     </None>
