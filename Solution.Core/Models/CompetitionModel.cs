@@ -32,7 +32,7 @@ public partial class CompetitionModel
         return new CompetitionEntity
         {
             PublicId = Id,
-            StreetId = Street.Value.Id,
+            StreetId = uint.Parse(Street.Value.Id),
             Name = Name.Value,
             Date = Date.Value
         };
@@ -41,17 +41,13 @@ public partial class CompetitionModel
     public void ToEntity(CompetitionEntity entity)
     {
         entity.PublicId = Id;
-        entity.StreetId = Street.Value.Id;
+        entity.StreetId = uint.Parse(Street.Value.Id);
         entity.Name = Name.Value;
         entity.Date = Date.Value;
     }
 
     private void AddValidators()
     {
-        this.Street.Validations.Add(new PickerValidationRule<StreetModel>
-        {
-            ValidationMessage = "StreetId must be selected!"
-        });
 
         this.Name.Validations.Add(new IsNotNullOrEmptyRule<string>
         {
@@ -64,10 +60,10 @@ public partial class CompetitionModel
             {
                 ValidationMessage = "Date field is required!"
             },
-            new MaxValueRule<DateTime>
+            /*new MaxValueRule<DateTime>
             {
                 ValidationMessage = "Date must not be in the future!"
-            }
+            }*/
         ]);
     }
 }
