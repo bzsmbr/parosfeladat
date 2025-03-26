@@ -37,7 +37,37 @@
 
         return result > 0 ? Result.Success : Error.NotFound();
     }
-    public async Task<ErrorOr<TeamModel>> GetByIdAsync(string teamId) { }
-    public async Task<ErrorOr<List<TeamModel>>> GetAllAsync() { }
-    public async Task<ErrorOr<PaginationModel<TeamModel>>> GetPagedAsync(int page = 0) { }
+    public async Task<ErrorOr<TeamModel>> GetByIdAsync(string teamId)
+    {
+        var team = await dbContext.Teams.FirstOrDefaultAsync(x => x.PublicId == teamId);
+
+        if (team is null)
+        {
+            return Error.NotFound(description: "Team not found.");
+        }
+
+        return new TeamModel(team);
+    }
+    public async Task<ErrorOr<List<TeamModel>>> GetAllAsync() =>
+        await dbContext.Teams.AsNoTracking()
+                           .Select(x => new TeamModel(x))
+                           .ToListAsync();
+    public async Task<ErrorOr<PaginationModel<TeamModel>>> GetPagedAsync(int page = 0)
+    {
+        page = page < 0 ? 0 : page - 1;
+
+        var teams = await dbContext.Teams.AsNoTracking()
+                                                       .Skip(page * ROW_COUNT)
+                                                       .Take(ROW_COUNT)
+                                                       .Select(x => new TeamModel(x))
+                                                       .ToListAsync();
+
+        var paginationModel = new PaginationModel<TeamModel>
+        {
+            Items = teams,
+            Count = await dbContext.Teams.CountAsync()
+        };
+
+        return paginationModel;
+    }
 }

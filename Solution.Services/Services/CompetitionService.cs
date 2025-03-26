@@ -44,7 +44,40 @@
 
         return result > 0 ? Result.Success : Error.NotFound();
     }
-    public async Task<ErrorOr<CompetitionModel>> GetByIdAsync(string competitionId) { }
-    public async Task<ErrorOr<List<CompetitionModel>>> GetAllAsync() { }
-    public async Task<ErrorOr<PaginationModel<CompetitionModel>>> GetPagedAsync(int page = 0) { }
+    public async Task<ErrorOr<CompetitionModel>> GetByIdAsync(string competitionId)
+    {
+        var competition = await dbContext.Competitions.Include(x => x.Street)
+                                            .FirstOrDefaultAsync(x => x.PublicId == competitionId);
+
+        if (competition is null)
+        {
+            return Error.NotFound(description: "Competition not found.");
+        }
+
+        return new CompetitionModel(competition);
+    }
+    public async Task<ErrorOr<List<CompetitionModel>>> GetAllAsync() =>
+        await dbContext.Competitions.AsNoTracking()
+                   .Include(x => x.Street)
+                   .Select(x => new CompetitionModel(x))
+                   .ToListAsync();
+    public async Task<ErrorOr<PaginationModel<CompetitionModel>>> GetPagedAsync(int page = 0)
+    {
+        page = page < 0 ? 0 : page - 1;
+
+        var competitions = await dbContext.Competitions.AsNoTracking()
+                                                       .Include(x => x.Street)
+                                                       .Skip(page * ROW_COUNT)
+                                                       .Take(ROW_COUNT)
+                                                       .Select(x => new CompetitionModel(x))
+                                                       .ToListAsync();
+
+        var paginationModel = new PaginationModel<CompetitionModel>
+        {
+            Items = competitions,
+            Count = await dbContext.Competitions.CountAsync()
+        };
+
+        return paginationModel;
+    }
 }
