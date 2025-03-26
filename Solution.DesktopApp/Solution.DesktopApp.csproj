@@ -103,6 +103,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\CompListView.xaml.cs">
+	    <DependentUpon>CompListView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CompCreateOrEditView.xaml.cs">
+	    <DependentUpon>CompCreateOrEditView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\MainView.xaml.cs">
 	    <DependentUpon>MainView.xaml</DependentUpon>
 	  </Compile>
@@ -119,6 +125,15 @@
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\CompListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CompCreateOrEditView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
