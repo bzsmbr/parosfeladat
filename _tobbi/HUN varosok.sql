@@ -1,14 +1,7 @@
-CREATE TABLE IF NOT EXISTS `Varos` 
+INSERT INTO City 
 (
-  Iranyitoszam INT NOT NULL PRIMARY KEY IDENTITY,
-  Nev NVARCHAR(255) NOT NULL
-)
-
-
-INSERT INTO Varos 
-(
-	Iranyitoszam, 
-	Nev
+	PostalCode, 
+	Name	
 )
  VALUES
 	(2000, 'Szentendre'),

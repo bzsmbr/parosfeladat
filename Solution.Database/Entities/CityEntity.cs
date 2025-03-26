@@ -11,7 +11,7 @@ public class CityEntity
     public uint PostalCode { get; set; }
 
     [Required]
-    [StringLength(32)]
+    [StringLength(64)]
     public string Name { get; set; }
 
     public virtual IReadOnlyCollection<StreetEntity> Streets { get; set; }
