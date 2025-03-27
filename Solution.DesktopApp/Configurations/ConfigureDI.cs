@@ -8,6 +8,18 @@ public static class ConfigureDI
 	{
 		builder.Services.AddTransient<MainViewModel>();
 
+		builder.Services.AddTransient<CompCreateOrEditViewModel>();
+
+        builder.Services.AddTransient<CompListViewModel>();
+
+        builder.Services.AddTransient<JuryCreateOrEditViewModel>();
+
+        builder.Services.AddTransient<JuryListViewModel>();
+
+        builder.Services.AddTransient<TeamCreateOrEditViewModel>();
+
+        builder.Services.AddTransient<TeamListViewModel>();
+
         builder.Services.AddTransient<MainView>();
 
         builder.Services.AddScoped<IGoogleDriveService, GoogleDriveService> ();
