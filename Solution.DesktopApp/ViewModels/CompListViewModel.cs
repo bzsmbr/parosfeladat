@@ -1,5 +1,4 @@
-﻿using Solution.Core.Models;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace Solution.DesktopApp.ViewModels;
@@ -87,8 +86,8 @@ public partial class CompListViewModel(ICompetitionService competitionService)
 
         if (!result.IsError)
         {
-            var motorcycle = comps.SingleOrDefault(x => x.Id == id);
-            comps.Remove(motorcycle);
+            var competition = comps.SingleOrDefault(x => x.Id == id);
+            comps.Remove(competition);
 
             if (comps.Count == 0)
             {

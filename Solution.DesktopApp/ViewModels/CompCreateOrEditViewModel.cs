@@ -6,7 +6,7 @@ namespace Solution.DesktopApp.ViewModels;
 [ObservableObject]
 public partial class CompCreateOrEditViewModel(
     AppDbContext dbContext,
-    ICompetitionService motorcycleService,
+    ICompetitionService competitionService,
     IGoogleDriveService googleDriveService) : CompetitionModel(), IQueryAttributable
 {
     #region life cycle commands
@@ -20,7 +20,6 @@ public partial class CompCreateOrEditViewModel(
 
     #region event commands
     public IAsyncRelayCommand SubmitCommand => new AsyncRelayCommand(OnSubmitAsync);
-    public IAsyncRelayCommand ImageSelectCommand => new AsyncRelayCommand(OnImageSelectAsync);
     #endregion
 
     private delegate Task ButtonActionDelagate();
@@ -72,10 +71,8 @@ public partial class CompCreateOrEditViewModel(
             return;
         }
 
-        await UploaImageAsync();
-
-        var result = await motorcycleService.CreateAsync(this);
-        var message = result.IsError ? result.FirstError.Description : "Motorcycle saved.";
+        var result = await competitionService.CreateAsync(this);
+        var message = result.IsError ? result.FirstError.Description : "Competition saved.";
         var title = result.IsError ? "Error" : "Information";
 
         if (!result.IsError)
@@ -93,11 +90,9 @@ public partial class CompCreateOrEditViewModel(
             return;
         }
 
-        await UploaImageAsync();
+        var result = await competitionService.UpdateAsync(this);
 
-        var result = await motorcycleService.UpdateAsync(this);
-
-        var message = result.IsError ? result.FirstError.Description : "Motorcycle updated.";
+        var message = result.IsError ? result.FirstError.Description : "Competition updated.";
         var title = result.IsError ? "Error" : "Information";
 
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");
@@ -106,9 +101,9 @@ public partial class CompCreateOrEditViewModel(
 
     private async Task LoadManufacturersAsync()
     {
-        Manufacturers = await dbContext.Manufacturers.AsNoTracking()
+        Streets = await dbContext.Streets.AsNoTracking()
                                                      .OrderBy(x => x.Name)
-                                                     .Select(x => new ManufacturerModel(x))
+                                                     .Select(x => new StreetModel(x))
                                                      .ToListAsync();
     }
 
