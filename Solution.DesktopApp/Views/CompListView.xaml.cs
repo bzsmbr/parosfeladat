@@ -1,12 +1,12 @@
-﻿namespace Solution.DesktopApp;
+﻿namespace Solution.DesktopApp.Views;
 
-public partial class MainView : ContentPage
+public partial class CompListView : ContentPage
 {
-    public MainViewModel ViewModel => this.BindingContext as MainViewModel;
+    public CompListViewModel ViewModel => this.BindingContext as CompListViewModel;
 
-    public static string Name => nameof(MainView);
+    public static string Name => nameof(CompListView);
 
-    public MainView(MainViewModel viewModel)
+    public CompListView(CompListViewModel viewModel)
     {
         this.BindingContext = viewModel;
 

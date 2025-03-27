@@ -34,6 +34,16 @@
             <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
+
+        <VerticalStackLayout>
+            <Label Text="Date" Style="{StaticResource InputLabel}" />
+            <DatePicker Date="{Binding Date.Value}" MaximumDate="{Binding MaxDateTime}"
+                        WidthRequest="{Binding DatePickerWidth}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+            <Button Text="Submit" Command="{Binding SubmitCommand}" WidthRequest="250"/>
+        </VerticalStackLayout>
     </StackLayout>
 
 </ContentPage>

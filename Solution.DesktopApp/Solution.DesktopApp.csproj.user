@@ -11,6 +11,9 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <MauiXaml Update="Components\CompetitionListComponent.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Views\CompListView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
