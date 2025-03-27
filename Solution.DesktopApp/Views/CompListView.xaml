@@ -29,6 +29,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
@@ -41,7 +44,18 @@
                                Text="Date"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
- 
+                        <Label Grid.Column="2"
+                               Text="City"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="3"
+                               Text="Street"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="4"
+                               Text="House number"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemsLayout>

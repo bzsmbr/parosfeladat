@@ -8,9 +8,41 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="100" />
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Text="{Binding Competition.Name.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="1"
+                   Text="{Binding Competition.Date.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="2"
+                   Text="{Binding Competition.Street.Value.City.Value.Name, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="3"
+                   Text="{Binding Competition.Street.Value.Name, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="4"
+                   Text="{Binding Competition.Street.Value.HouseNumber, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <ImageButton Grid.Column="5"
+                         Source="{AppThemeBinding Light=edit_dark.png, Dark=edit_light.png}"
+                         Command="{Binding EditCommand, Source={x:Reference this}}"
+                         HorizontalOptions="End" VerticalOptions="Center" 
+                         BackgroundColor="Transparent"
+                         WidthRequest="25" HeightRequest="25"/>
+            <ImageButton Grid.Column="6"
+                         Source="{AppThemeBinding Light=delete_dark.png, Dark=delete_light.png}"
+                         Command="{Binding DeleteCommand, Source={x:Reference this}}"
+                         CommandParameter="{Binding Competition.Id, Source={x:Reference this}}"
+                         HorizontalOptions="End" VerticalOptions="Center" 
+                         BackgroundColor="Transparent"
+                         WidthRequest="25" HeightRequest="25"/>
         </Grid>
     </Border>
 </ContentView>
