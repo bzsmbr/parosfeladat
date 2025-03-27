@@ -30,47 +30,39 @@ public partial class CompCreateOrEditViewModel(
     private string title;
 
     [ObservableProperty]
-    private IList<TeamModel> teams = [];
+    private IList<TeamModel> teamNames = [];
 
     [ObservableProperty]
     private IList<JuryModel> juries = [];
 
+    [ObservableProperty]
+    private IList<CityModel> citys = [];
+
+    [ObservableProperty]
+    private string street;
+
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        //load team, jury
+        //load team, jury, city
 
-        bool hasValue = query.TryGetValue("Motorcycle", out object result);
+        bool hasValue = query.TryGetValue("Competition", out object result);
 
         if (!hasValue)
         {
             asyncButtonAction = OnSaveAsync;
-            Title = "Add new  motorcycle";
+            Title = "Add new competition!";
             return;
         }
 
-        MotorcycleModel motorcycle = result as MotorcycleModel;
+        CompetitionModel comp = result as CompetitionModel;
 
-        this.Id = motorcycle.Id;
-        this.Manufacturer.Value = motorcycle.Manufacturer.Value;
-        this.Type.Value = motorcycle.Type.Value;
-        this.Model.Value = motorcycle.Model.Value;
-        this.ReleaseYear.Value = motorcycle.ReleaseYear.Value;
-        this.Cubic.Value = motorcycle.Cubic.Value;
-        this.NumberOfCylinders.Value = motorcycle.NumberOfCylinders.Value;
-        this.ImageId = motorcycle.ImageId;
-        this.WebContentLink = motorcycle.WebContentLink;
+        this.Id = comp.Id;
+        //this.TeamNames.Value = comp.Teams.Name.Value;
 
-        if (!string.IsNullOrEmpty(motorcycle.WebContentLink))
-        {
-            Image = new UriImageSource
-            {
-                Uri = new Uri(motorcycle.WebContentLink),
-                CacheValidity = new TimeSpan(10, 0, 0, 0)
-            };
-        }
+        
 
         asyncButtonAction = OnUpdateAsync;
-        Title = "Update motorcycle";
+        Title = "Update Competition";
     }
 
     private async Task OnSaveAsync()

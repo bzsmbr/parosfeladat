@@ -10,6 +10,7 @@ public partial class CompetitionModel
 
     public ValidatableObject<DateTime> Date { get; set; }
 
+
     public CompetitionModel()
     {
         Street = new ValidatableObject<StreetModel>();
@@ -60,10 +61,10 @@ public partial class CompetitionModel
             {
                 ValidationMessage = "Date field is required!"
             },
-            /*new MaxValueRule<DateTime>
+            new MaxDateRule<DateTime>
             {
                 ValidationMessage = "Date must not be in the future!"
-            }*/
+            }
         ]);
     }
 }
