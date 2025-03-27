@@ -36,10 +36,10 @@ public partial class CompCreateOrEditViewModel(
     private IList<JuryModel> juries = [];
 
     [ObservableProperty]
-    private IList<CityModel> citys = [];
+    private IList<CityModel> cities = [];
 
     [ObservableProperty]
-    private string street;
+    private StreetModel street;
 
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
