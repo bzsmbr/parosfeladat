@@ -10,3 +10,4 @@ Solution.Services/obj
 Solution.ValidationLibrary/bin
 Solution.ValidationLibrary/obj
 .vs
+Solution.PdfGenerator/bin
