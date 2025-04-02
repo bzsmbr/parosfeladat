@@ -1,4 +1,5 @@
-﻿using Solution.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Solution.Core.Models;
 using System;
 
 namespace Solution.DesktopApp.ViewModels;
@@ -15,7 +16,13 @@ public partial class CompCreateOrEditViewModel(
     #endregion
 
     #region validation commands
-    //public IRelayCommand TypeIndexChangedCommand => new RelayCommand(() => this.Type.Validate());
+
+    public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.City.Validate());
+    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Name.Validate());
+
+    public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.HouseNumber.Validate());
+
+    public IRelayCommand DateIndexChangedCommand => new RelayCommand(() => this.Date.Validate());
     #endregion
 
     #region event commands
@@ -40,9 +47,26 @@ public partial class CompCreateOrEditViewModel(
     [ObservableProperty]
     private StreetModel street;
 
+    private async Task OnAppearingkAsync()
+    {
+    }
+
+    private async Task OnDisappearingAsync()
+    { }
+
+    private async Task OnSubmitAsync() => await asyncButtonAction();
+
+    private async Task LoadCitiesAsync()
+    {
+        Cities = await dbContext.Cities.AsNoTracking()
+                                       .OrderBy(x => x.Name)
+                                       .Select(x => new CityModel(x))
+                                       .ToListAsync();
+    }
+
     public async void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        //load team, jury, city
+        await Task.Run(LoadCitiesAsync);
 
         bool hasValue = query.TryGetValue("Competition", out object result);
 
@@ -56,9 +80,11 @@ public partial class CompCreateOrEditViewModel(
         CompetitionModel comp = result as CompetitionModel;
 
         this.Id = comp.Id;
-        //this.TeamNames.Value = comp.Teams.Name.Value;
+        this.Name.Value = comp.Name.Value;
+        this.Date.Value = comp.Date.Value;
+        this.Street.Name.Value = comp.Street.Name.Value;
 
-        
+
 
         asyncButtonAction = OnUpdateAsync;
         Title = "Update Competition";
@@ -99,17 +125,9 @@ public partial class CompCreateOrEditViewModel(
     }
 
 
-    private async Task LoadManufacturersAsync()
-    {
-        Streets = await dbContext.Streets.AsNoTracking()
-                                                     .OrderBy(x => x.Name)
-                                                     .Select(x => new StreetModel(x))
-                                                     .ToListAsync();
-    }
-
     //update
     //save
-    //load
+    //load city - pipa
     //clear form
     //is form valid
 }

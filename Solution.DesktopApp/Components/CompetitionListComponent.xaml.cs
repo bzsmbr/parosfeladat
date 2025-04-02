@@ -10,6 +10,20 @@ public partial class CompetitionListComponent : ContentView
          defaultBindingMode: BindingMode.OneWay
     );
 
+    public CompetitionModel Competition
+    {
+        get => (CompetitionModel)GetValue(CompetitionProperty);
+        set => SetValue(CompetitionProperty, value);
+    }
+
+    public static readonly BindableProperty DeleteCommandProperty = BindableProperty.Create(
+         propertyName: nameof(DeleteCommand),
+         returnType: typeof(IAsyncRelayCommand),
+         declaringType: typeof(CompetitionListComponent),
+         defaultValue: null,
+         defaultBindingMode: BindingMode.OneWay
+    );
+
     public IAsyncRelayCommand DeleteCommand
     {
         get => (IAsyncRelayCommand)GetValue(DeleteCommandProperty);
@@ -30,11 +44,7 @@ public partial class CompetitionListComponent : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
 
-    public CompetitionModel Competition
-    {
-        get => (CompetitionModel)GetValue(CompetitionProperty);
-        set => SetValue(CompetitionProperty, value);
-    }
+    
 
     public IAsyncRelayCommand EditCommand => new AsyncRelayCommand(OnEditAsync);
 

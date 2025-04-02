@@ -23,6 +23,7 @@ public class ValidatableObject<T> : ObservableObject
         get => value;
         set => SetProperty(ref this.value, value);
     }
+
     public ValidatableObject()
     {
         isValid = true;
