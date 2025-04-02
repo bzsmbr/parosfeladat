@@ -49,10 +49,12 @@ public partial class CompCreateOrEditViewModel(
 
     private async Task OnAppearingkAsync()
     {
+        Street = new StreetModel();
     }
 
     private async Task OnDisappearingAsync()
-    { }
+    { 
+    }
 
     private async Task OnSubmitAsync() => await asyncButtonAction();
 
