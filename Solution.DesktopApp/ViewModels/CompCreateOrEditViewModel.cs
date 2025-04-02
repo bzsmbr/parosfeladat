@@ -82,9 +82,7 @@ public partial class CompCreateOrEditViewModel(
         this.Id = comp.Id;
         this.Name.Value = comp.Name.Value;
         this.Date.Value = comp.Date.Value;
-        this.Street.City.Value = comp.Street.City.Value;
-        this.Street.Name.Value = comp.Street.Name.Value;
-        this.Street.HouseNumber.Value = comp.Street.HouseNumber.Value;
+        this.Street = comp.Street.Value;
 
 
         asyncButtonAction = OnUpdateAsync;
@@ -150,8 +148,4 @@ public partial class CompCreateOrEditViewModel(
                this.Street.HouseNumber.IsValid &&
                this.Date.IsValid;
     }
-
-
-    //update
-    //save
 }
