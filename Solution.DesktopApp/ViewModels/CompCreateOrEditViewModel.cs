@@ -82,8 +82,9 @@ public partial class CompCreateOrEditViewModel(
         this.Id = comp.Id;
         this.Name.Value = comp.Name.Value;
         this.Date.Value = comp.Date.Value;
+        this.Street.City.Value = comp.Street.City.Value;
         this.Street.Name.Value = comp.Street.Name.Value;
-
+        this.Street.HouseNumber.Value = comp.Street.HouseNumber.Value;
 
 
         asyncButtonAction = OnUpdateAsync;
@@ -124,10 +125,33 @@ public partial class CompCreateOrEditViewModel(
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");
     }
 
+    private void ClearForm()
+    {
+        this.Name.Value = null;
+
+        this.Street.City.Value = null;
+        this.Street.Name.Value = null;
+        this.Street.HouseNumber.Value = null;
+        this.Date.Value = DateTime.Now;
+    }
+
+    private bool IsFormValid()
+    {
+        this.Name.Validate();
+        this.Street.City.Validate();
+        this.Street.Name.Validate();
+        this.Street.HouseNumber.Validate();
+        this.Date.Validate();
+
+
+        return (this.Street.City?.IsValid ?? false) &&
+               this.Name.IsValid &&
+               this.Street.Name.IsValid &&
+               this.Street.HouseNumber.IsValid &&
+               this.Date.IsValid;
+    }
+
 
     //update
     //save
-    //load city - pipa
-    //clear form
-    //is form valid
 }
