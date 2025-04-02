@@ -19,11 +19,13 @@ public partial class AppShellViewModel
     private async Task OnAddNewCompAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(CompCreateOrEditView.Name);
     }
 
     private async Task OnListAllCompsAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(CompListView.Name);
     }
 
     private async Task OnAddNewJuryAsync()

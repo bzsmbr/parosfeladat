@@ -8,7 +8,9 @@ public static class ConfigureDI
 	{
 		builder.Services.AddTransient<MainViewModel>();
 
-		builder.Services.AddTransient<CompCreateOrEditViewModel>();
+        builder.Services.AddTransient<ICompetitionService, CompetitionService>();
+
+        builder.Services.AddTransient<CompCreateOrEditViewModel>();
 
         builder.Services.AddTransient<CompListViewModel>();
 
