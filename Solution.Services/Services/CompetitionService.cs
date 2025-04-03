@@ -4,17 +4,27 @@
 
     public async Task<ErrorOr<CompetitionModel>> CreateAsync(CompetitionModel model)
     {
-        bool exists = await dbContext.Competitions.AnyAsync(x => x.StreetId == uint.Parse(model.Street.Value.Id) &&
-                                                x.Name.ToLower() == model.Name.Value.ToLower().Trim() &&
-                                                x.Date == model.Date.Value);
+        bool exists = await dbContext.Competitions.AnyAsync(x => x.Name.ToLower() == model.Name.Value.ToLower().Trim() &&
+                                                x.Date.Date == model.Date.Value.Date);
 
         if (exists)
         {
             return Error.Conflict(description: "Competition already exists!");
         }
 
+        // Check if the Street exists
+        var street = await dbContext.Streets.FirstOrDefaultAsync(s => s.Id == model.Street.Value.Id);
+        if (street == null)
+        {
+            // Create and save the Street entity if it does not exist
+            street = model.Street.Value.ToEntity();
+            await dbContext.Streets.AddAsync(street);
+            await dbContext.SaveChangesAsync();
+        }
+
         var competition = model.ToEntity();
         competition.PublicId = Guid.NewGuid().ToString();
+        competition.StreetId = street.Id; // Set the StreetId
 
         await dbContext.Competitions.AddAsync(competition);
         await dbContext.SaveChangesAsync();
@@ -30,7 +40,7 @@
                                         .Include(x => x.Street)
                                         .Where(x => x.PublicId == model.Id)
                                         .ExecuteUpdateAsync(x => x.SetProperty(p => p.PublicId, model.Id)
-                                                                  .SetProperty(p => p.StreetId, uint.Parse(model.Street.Value.Id))
+                                                                  .SetProperty(p => p.StreetId, model.Street.Value.Id)
                                                                   .SetProperty(p => p.Name, model.Name.Value)
                                                                   .SetProperty(p => p.Date, model.Date.Value));
         return result > 0 ? Result.Success : Error.NotFound();

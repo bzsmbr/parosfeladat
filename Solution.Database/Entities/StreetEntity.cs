@@ -5,10 +5,6 @@ public class StreetEntity
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public uint Id { get; set; }
 
-    [StringLength(128)]
-    [Required]
-    public string PublicId { get; set; }
-
     [Required]
     [StringLength(32)]
     public string Name { get; set; }

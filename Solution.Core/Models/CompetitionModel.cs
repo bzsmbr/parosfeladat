@@ -33,7 +33,7 @@ public partial class CompetitionModel
         return new CompetitionEntity
         {
             PublicId = Id,
-            StreetId = uint.Parse(Street.Value.Id),
+            StreetId = Street.Value.Id,
             Name = Name.Value,
             Date = Date.Value
         };
@@ -42,7 +42,7 @@ public partial class CompetitionModel
     public void ToEntity(CompetitionEntity entity)
     {
         entity.PublicId = Id;
-        entity.StreetId = uint.Parse(Street.Value.Id);
+        entity.StreetId = Street.Value.Id;
         entity.Name = Name.Value;
         entity.Date = Date.Value;
     }

@@ -18,9 +18,9 @@ public partial class CompCreateOrEditViewModel(
     #region validation commands
 
     public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.City.Validate());
-    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Name.Validate());
+    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Value.Name.Validate());
 
-    public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.HouseNumber.Validate());
+    public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.Value.HouseNumber.Validate());
 
     public IRelayCommand DateIndexChangedCommand => new RelayCommand(() => this.Date.Validate());
     #endregion
@@ -44,12 +44,8 @@ public partial class CompCreateOrEditViewModel(
     [ObservableProperty]
     private IList<CityModel> cities = [];
 
-    [ObservableProperty]
-    private StreetModel street;
-
     private async Task OnAppearingkAsync()
     {
-        Street = new StreetModel();
     }
 
     private async Task OnDisappearingAsync()
@@ -84,7 +80,7 @@ public partial class CompCreateOrEditViewModel(
         this.Id = comp.Id;
         this.Name.Value = comp.Name.Value;
         this.Date.Value = comp.Date.Value;
-        this.Street = comp.Street.Value;
+        this.Street = comp.Street;
 
 
         asyncButtonAction = OnUpdateAsync;
@@ -144,7 +140,7 @@ public partial class CompCreateOrEditViewModel(
         this.Date.Validate();
 
 
-        return (this.Street.City?.IsValid ?? false) &&
+        return this.Street?.City.IsValid ?? false &&
                this.Name.IsValid &&
                this.Street.Name.IsValid &&
                this.Street.HouseNumber.IsValid &&

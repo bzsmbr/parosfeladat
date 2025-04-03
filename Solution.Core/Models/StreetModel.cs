@@ -2,7 +2,7 @@
 
 public partial class StreetModel
 {
-    public string Id { get; set; }
+    public uint Id { get; set; }
 
     public ValidatableObject<CityModel> City { get; set; }
 
@@ -21,7 +21,7 @@ public partial class StreetModel
 
     public StreetModel(StreetEntity entity) : this()
     {
-        this.Id = entity.PublicId;
+        this.Id = entity.Id;
         this.City.Value = new CityModel(entity.City);
         this.Name.Value = entity.Name;
         this.HouseNumber.Value = entity.HouseNumber;
@@ -31,7 +31,7 @@ public partial class StreetModel
     {
         return new StreetEntity
         {
-            PublicId = Id,
+            Id = Id,
             CityId = City.Value.Id,
             Name = Name.Value,
             HouseNumber = HouseNumber.Value ?? 0
@@ -40,7 +40,7 @@ public partial class StreetModel
 
     public void ToEntity(StreetEntity entity)
     {
-        entity.PublicId = Id;
+        entity.Id = Id;
         entity.CityId = City.Value.Id;
         entity.Name = Name.Value;
         entity.HouseNumber = HouseNumber.Value ?? 0;
