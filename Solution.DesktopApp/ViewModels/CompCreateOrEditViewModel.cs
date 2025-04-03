@@ -16,13 +16,12 @@ public partial class CompCreateOrEditViewModel(
     #endregion
 
     #region validation commands
+    public IRelayCommand CompNameIndexChangedCommand => new RelayCommand(() => this.Name.Validate());
 
     public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.City.Validate());
-    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Name.Validate());
+    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.StreetName.Validate());
 
     public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.HouseNumber.Validate());
-
-    public IRelayCommand DateIndexChangedCommand => new RelayCommand(() => this.Date.Validate());
     #endregion
 
     #region event commands
@@ -83,6 +82,7 @@ public partial class CompCreateOrEditViewModel(
 
         this.Id = comp.Id;
         this.Name.Value = comp.Name.Value;
+        this.StreetName = comp.StreetName;
         this.Date.Value = comp.Date.Value;
         this.Street = comp.Street.Value;
 
@@ -139,14 +139,14 @@ public partial class CompCreateOrEditViewModel(
     {
         this.Name.Validate();
         this.Street.City.Validate();
-        this.Street.Name.Validate();
+        this.StreetName.Validate();
         this.Street.HouseNumber.Validate();
         this.Date.Validate();
 
 
         return (this.Street.City?.IsValid ?? false) &&
                this.Name.IsValid &&
-               this.Street.Name.IsValid &&
+               this.StreetName.IsValid &&
                this.Street.HouseNumber.IsValid &&
                this.Date.IsValid;
     }

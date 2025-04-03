@@ -25,7 +25,7 @@
                    Text="{Binding Competition.Street.Value.City.Value.Name, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="3"
-                   Text="{Binding Competition.Street.Value.Name, Source={x:Reference this}}" 
+                   Text="{Binding Competition.StreetName.Value, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="4"
                    Text="{Binding Competition.Street.Value.HouseNumber, Source={x:Reference this}}" 

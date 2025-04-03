@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Solution.DataBase;
 
@@ -11,9 +12,11 @@ using Solution.DataBase;
 namespace Solution.Database.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403071021_streetFix")]
+    partial class streetFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace Solution.Database.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("City", (string)null);
+                    b.ToTable("City");
                 });
 
             modelBuilder.Entity("CompetitionEntity", b =>
@@ -80,7 +83,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("StreetId");
 
-                    b.ToTable("Competition", (string)null);
+                    b.ToTable("Competition");
                 });
 
             modelBuilder.Entity("CompetitionEntityJuryEntity", b =>
@@ -95,7 +98,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("JuriesId");
 
-                    b.ToTable("CompetitionEntityJuryEntity", (string)null);
+                    b.ToTable("CompetitionEntityJuryEntity");
                 });
 
             modelBuilder.Entity("CompetitionEntityTeamEntity", b =>
@@ -110,7 +113,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("TeamsId");
 
-                    b.ToTable("CompetitionEntityTeamEntity", (string)null);
+                    b.ToTable("CompetitionEntityTeamEntity");
                 });
 
             modelBuilder.Entity("JuryEntity", b =>
@@ -143,7 +146,7 @@ namespace Solution.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Jury", (string)null);
+                    b.ToTable("Jury");
                 });
 
             modelBuilder.Entity("StreetEntity", b =>
@@ -174,7 +177,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Street", (string)null);
+                    b.ToTable("Street");
                 });
 
             modelBuilder.Entity("TeamEntity", b =>
@@ -203,7 +206,7 @@ namespace Solution.Database.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("Team", (string)null);
+                    b.ToTable("Team");
                 });
 
             modelBuilder.Entity("TeamEntityTeamMemberEntity", b =>
@@ -218,7 +221,7 @@ namespace Solution.Database.Migrations
 
                     b.HasIndex("TeamsId");
 
-                    b.ToTable("TeamEntityTeamMemberEntity", (string)null);
+                    b.ToTable("TeamEntityTeamMemberEntity");
                 });
 
             modelBuilder.Entity("TeamMemberEntity", b =>
@@ -241,7 +244,7 @@ namespace Solution.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TeamMember", (string)null);
+                    b.ToTable("TeamMember");
                 });
 
             modelBuilder.Entity("CompetitionEntity", b =>

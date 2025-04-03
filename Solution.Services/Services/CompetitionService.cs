@@ -4,9 +4,9 @@
 
     public async Task<ErrorOr<CompetitionModel>> CreateAsync(CompetitionModel model)
     {
-        bool exists = await dbContext.Competitions.AnyAsync(x => x.StreetId == uint.Parse(model.Street.Value.Id) &&
+        bool exists = await dbContext.Competitions.AnyAsync(x =>
                                                 x.Name.ToLower() == model.Name.Value.ToLower().Trim() &&
-                                                x.Date == model.Date.Value);
+                                                x.Date.Date == model.Date.Value.Date);
 
         if (exists)
         {
