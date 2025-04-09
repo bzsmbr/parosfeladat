@@ -25,10 +25,10 @@
                    Text="{Binding Competition.Street.Value.City.Value.Name, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="3"
-                   Text="{Binding Competition.Street.Value.Name, Source={x:Reference this}}" 
+                   Text="{Binding Competition.Street.Value.Name.Value, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="4"
-                   Text="{Binding Competition.Street.Value.HouseNumber, Source={x:Reference this}}" 
+                   Text="{Binding Competition.Street.Value.HouseNumber.Value, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <ImageButton Grid.Column="5"
                          Source="{AppThemeBinding Light=edit_dark.png, Dark=edit_light.png}"

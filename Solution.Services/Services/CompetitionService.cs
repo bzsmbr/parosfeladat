@@ -76,7 +76,7 @@
         page = page < 0 ? 0 : page - 1;
 
         var competitions = await dbContext.Competitions.AsNoTracking()
-                                                       .Include(x => x.Street)
+                                                       .Include(x => x.Street).ThenInclude(x => x.City)
                                                        .Skip(page * ROW_COUNT)
                                                        .Take(ROW_COUNT)
                                                        .Select(x => new CompetitionModel(x))
