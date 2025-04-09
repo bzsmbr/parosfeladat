@@ -21,19 +21,19 @@ public partial class CompListViewModel(ICompetitionService competitionService)
     #endregion
 
     [ObservableProperty]
-    private ObservableCollection<CompetitionModel> comps;
+    private ObservableCollection<CompetitionModel> competitions;
 
     private int page = 1;
     private bool isLoading = false;
     private bool hasNextPage = false;
-    private int numberOfCompsInDB = 0;
+    private int numberOfCompetitionsInDB = 0;
 
     private async Task OnAppearingAsync()
     {
         PreviousPageCommand = new Command(async () => await OnPreviousPageAsync(), () => page > 1 && !isLoading);
         NextPageCommand = new Command(async () => await OnNextPageAsync(), () => !isLoading && hasNextPage);
 
-        await LoadCompsAsync();
+        await LoadCompetitionsAsync();
     }
 
     private async Task OnDisappearingAsync()
@@ -44,7 +44,7 @@ public partial class CompListViewModel(ICompetitionService competitionService)
         if (isLoading) return;
 
         page = page <= 1 ? 1 : --page;
-        await LoadCompsAsync();
+        await LoadCompetitionsAsync();
     }
 
     private async Task OnNextPageAsync()
@@ -52,10 +52,10 @@ public partial class CompListViewModel(ICompetitionService competitionService)
         if (isLoading) return;
 
         page++;
-        await LoadCompsAsync();
+        await LoadCompetitionsAsync();
     }
 
-    private async Task LoadCompsAsync()
+    private async Task LoadCompetitionsAsync()
     {
         isLoading = true;
 
@@ -67,10 +67,10 @@ public partial class CompListViewModel(ICompetitionService competitionService)
             return;
         }
 
-        Comps = new ObservableCollection<CompetitionModel>(result.Value.Items);
-        numberOfCompsInDB = result.Value.Count;
+        Competitions = new ObservableCollection<CompetitionModel>(result.Value.Items);
+        numberOfCompetitionsInDB = result.Value.Count;
 
-        hasNextPage = numberOfCompsInDB - (page * 10) > 0;
+        hasNextPage = numberOfCompetitionsInDB - (page * 10) > 0;
         isLoading = false;
 
         ((Command)PreviousPageCommand).ChangeCanExecute();
@@ -86,12 +86,12 @@ public partial class CompListViewModel(ICompetitionService competitionService)
 
         if (!result.IsError)
         {
-            var competition = comps.SingleOrDefault(x => x.Id == id);
-            comps.Remove(competition);
+            var competition = competitions.SingleOrDefault(x => x.Id == id);
+            competitions.Remove(competition);
 
-            if (comps.Count == 0)
+            if (competitions.Count == 0)
             {
-                await LoadCompsAsync();
+                await LoadCompetitionsAsync();
             }
         }
 
