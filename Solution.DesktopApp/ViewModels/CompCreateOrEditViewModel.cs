@@ -17,7 +17,7 @@ public partial class CompCreateOrEditViewModel(
 
     #region validation commands
 
-    public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.City.Validate());
+    public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.Value.City.Validate());
     public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Value.Name.Validate());
 
     public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.Value.HouseNumber.Validate());
@@ -125,25 +125,25 @@ public partial class CompCreateOrEditViewModel(
     {
         this.Name.Value = null;
 
-        this.Street.City.Value = null;
-        this.Street.Name.Value = null;
-        this.Street.HouseNumber.Value = null;
+        this.Street.Value.City = null;
+        this.Street.Value.Name = null;
+        this.Street.Value.HouseNumber = null;
         this.Date.Value = DateTime.Now;
     }
 
     private bool IsFormValid()
     {
         this.Name.Validate();
-        this.Street.City.Validate();
-        this.Street.Name.Validate();
-        this.Street.HouseNumber.Validate();
+        this.Street.Value.City.Validate();
+        this.Street.Value.Name.Validate();
+        this.Street.Value.HouseNumber.Validate();
         this.Date.Validate();
 
 
-        return this.Street?.City.IsValid ?? false &&
+        return this.Street?.Value.City.IsValid ?? false &&
                this.Name.IsValid &&
-               this.Street.Name.IsValid &&
-               this.Street.HouseNumber.IsValid &&
+               this.Street.Value.Name.IsValid &&
+               this.Street.Value.HouseNumber.IsValid &&
                this.Date.IsValid;
     }
 }

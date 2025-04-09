@@ -45,35 +45,35 @@
             <Label Text="City"></Label>
             <Picker ItemsSource="{Binding Cities}"
                     ItemDisplayBinding="{Binding Name}"
-                    SelectedItem="{Binding Street.City.Value}">
+                    SelectedItem="{Binding Street.Value.City.Value}">
                 <Picker.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
                                                     Command="{Binding CityIndexChangedCommand}" />
                 </Picker.Behaviors>
             </Picker>
-            <Label Text="{Binding Street.City.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+            <Label Text="{Binding Street.Value.City.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Style="{StaticResource FormLineContainer}">
             <Label Text="Street" Style="{StaticResource InputLabel}"/>
-            <Entry Text="{Binding Street.Name.Value}">
+            <Entry Text="{Binding Street.Value.Name.Value}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding StreetValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-            <Label Text="{Binding Street.Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+            <Label Text="{Binding Street.Value.Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Style="{StaticResource FormLineContainer}">
             <Label Text="House number" Style="{StaticResource InputLabel}"/>
-            <Entry Text="{Binding Street.HouseNumber.Value}">
+            <Entry Text="{Binding Street.Value.HouseNumber.Value}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding HouseNumberValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
-            <Label Text="{Binding Street.HouseNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+            <Label Text="{Binding Street.Value.HouseNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
 
