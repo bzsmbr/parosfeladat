@@ -28,10 +28,14 @@
 
     <Style x:Key="PageTitle" TargetType="Label">
         <Setter Property="HorizontalOptions" Value="Center"></Setter>
-        <Setter Property="TextColor" Value="WhiteSmoke" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
         <Setter Property="Margin" Value="0,10,0,20" />
         <Setter Property="FontSize" Value="Title" />
         <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="TableHeader" TargetType="Label">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
     </Style>
 
 </ResourceDictionary>

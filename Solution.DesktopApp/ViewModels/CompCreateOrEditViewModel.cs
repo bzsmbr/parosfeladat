@@ -16,11 +16,14 @@ public partial class CompCreateOrEditViewModel(
     #endregion
 
     #region validation commands
+    public IRelayCommand NameValidationCommand => new RelayCommand(() => this.Name.Validate());
+
+    public IRelayCommand MaxDateTime => new RelayCommand(() => this.Date.Value = DateTime.Now);
 
     public IRelayCommand CityIndexChangedCommand => new RelayCommand(() => this.Street.Value.City.Validate());
-    public IRelayCommand StreetNameIndexChangedCommand => new RelayCommand(() => this.Street.Value.Name.Validate());
+    public IRelayCommand StreetNameValidationCommand => new RelayCommand(() => this.Street.Value.Name.Validate());
 
-    public IRelayCommand StreetHouseNumberIndexChangedCommand => new RelayCommand(() => this.Street.Value.HouseNumber.Validate());
+    public IRelayCommand StreetHouseNumberValidationCommand => new RelayCommand(() => this.Street.Value.HouseNumber.Validate());
 
     public IRelayCommand DateIndexChangedCommand => new RelayCommand(() => this.Date.Validate());
     #endregion

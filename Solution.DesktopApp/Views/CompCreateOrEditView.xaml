@@ -37,8 +37,7 @@
 
         <VerticalStackLayout>
             <Label Text="Date" Style="{StaticResource InputLabel}" />
-            <DatePicker Date="{Binding Date.Value}" MaximumDate="{Binding MaxDateTime}"
-                        WidthRequest="{Binding DatePickerWidth}" />
+            <DatePicker Date="{Binding Date.Value}" MaximumDate="{Binding MaxDateTime}"/>
         </VerticalStackLayout>
 
         <VerticalStackLayout Style="{StaticResource FormLineContainer}">
@@ -59,7 +58,7 @@
             <Label Text="Street" Style="{StaticResource InputLabel}"/>
             <Entry Text="{Binding Street.Value.Name.Value}">
                 <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding StreetValidationCommand}" />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding StreetNameValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
             <Label Text="{Binding Street.Value.Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
@@ -70,7 +69,7 @@
             <Label Text="House number" Style="{StaticResource InputLabel}"/>
             <Entry Text="{Binding Street.Value.HouseNumber.Value}">
                 <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding HouseNumberValidationCommand}" />
+                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding StreetHouseNumberValidationCommand}" />
                 </Entry.Behaviors>
             </Entry>
             <Label Text="{Binding Street.Value.HouseNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
