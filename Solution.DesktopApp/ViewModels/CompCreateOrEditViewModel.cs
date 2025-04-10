@@ -81,6 +81,9 @@ public partial class CompCreateOrEditViewModel(
         this.Name.Value = comp.Name.Value;
         this.Date.Value = comp.Date.Value;
         this.Street = comp.Street;
+        this.Street.Value.Name.Value = comp.Street.Value.Name.Value;
+        this.Street.Value.HouseNumber.Value = comp.Street.Value.HouseNumber.Value;
+        this.Street.Value.City.Value.Name = comp.Street.Value.City.Value.Name;
 
 
         asyncButtonAction = OnUpdateAsync;
@@ -114,6 +117,7 @@ public partial class CompCreateOrEditViewModel(
         }
 
         var result = await competitionService.UpdateAsync(this);
+        var result2 = await competitionService.UpdateAsync2(this.Street.Value);
 
         var message = result.IsError ? result.FirstError.Description : "Competition updated.";
         var title = result.IsError ? "Error" : "Information";

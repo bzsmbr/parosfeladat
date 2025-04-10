@@ -45,6 +45,16 @@
                                                                   .SetProperty(p => p.Date, model.Date.Value));
         return result > 0 ? Result.Success : Error.NotFound();
     }
+    public async Task<ErrorOr<Success>> UpdateAsync2(StreetModel model)
+    {
+        var result = await dbContext.Streets.AsNoTracking()
+                                        .Include(x => x.City)
+                                        .Where(x => x.Id == model.Id)
+                                        .ExecuteUpdateAsync(x => x.SetProperty(p => p.CityId, model.City.Value.Id)
+                                                                  .SetProperty(p => p.Name, model.Name.Value)
+                                                                  .SetProperty(p => p.HouseNumber, model.HouseNumber.Value));
+        return result > 0 ? Result.Success : Error.NotFound();
+    }
     public async Task<ErrorOr<Success>> DeleteAsync(string competitionId)
     {
         var result = await dbContext.Competitions.AsNoTracking()
