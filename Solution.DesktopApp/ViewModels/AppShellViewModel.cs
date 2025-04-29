@@ -31,20 +31,24 @@ public partial class AppShellViewModel
     private async Task OnAddNewJuryAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(JuryCreateOrEditView.Name);
     }
 
     private async Task OnListAllJuriesAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(JuryListView.Name);
     }
 
     private async Task OnAddNewTeamAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(TeamCreateOrEditView.Name);
     }
 
     private async Task OnListAllTeamsAsync()
     {
         Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(TeamListView.Name);
     }
 }

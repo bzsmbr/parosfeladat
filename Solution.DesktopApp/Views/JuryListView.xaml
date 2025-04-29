@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Solution.DesktopApp.Views.JuryListView"
+             xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
+             xmlns:components="clr-namespace:Solution.DesktopApp.Components"
+             xmlns:models="clr-namespace:Solution.Core.Models;assembly=Solution.Core"
+             x:DataType="viewModels:JuryListViewModel">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
+        <toolkit:EventToCommandBehavior Command="{Binding DisappearingCommand}" EventName="Disappearing" />
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="JURIES"
+               Style="{x:StaticResource PageTitle}" />
+
+        <ScrollView Grid.Row="2">
+            <CollectionView ItemsSource="{Binding Juries}" Margin="50,0,50,0">
+                <CollectionView.Header>
+                    <Grid BackgroundColor="{AppThemeBinding Light=Black, Dark=WhiteSmoke}"
+                          Padding="10,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0"
+                               Text="Name"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="1"
+                               Text="Phone Number"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="2"
+                               Text="Email"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="2"
+                               Text="Competitions"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="4"
+                               Text="Edit"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="5"
+                               Text="Delete"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="7"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:JuryModel">
+                        <components:JuryListComponent Jury="{Binding .}" 
+                                                            DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:JuryListViewModel}}, Path=DeleteCommand}"
+                                                            CommandParameter="{Binding Id}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <FlexLayout JustifyContent="SpaceBetween" Direction="Row" Margin="0, 20">
+                        <Button Text="Previous page" Command="{Binding PreviousPageCommand}"></Button>
+                        <Button Text="Next page" Command="{Binding NextPageCommand}"></Button>
+                    </FlexLayout>
+                </CollectionView.Footer>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Solution.DesktopApp.Components.TeamListComponent"
+             x:Name="this">
+    <Border Padding="0,10,0,10">
+        <Grid Padding="10,0,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Text="{Binding Team.Name.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="1"
+                   Text="{Binding Team.Points.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="2"
+                   Text="{Binding Team.Members.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Label Grid.Column="3"
+                   Text="{Binding Team.Competitions.Value.Name.Value, Source={x:Reference this}}" 
+                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <ImageButton Grid.Column="4"
+                         Source="{AppThemeBinding Light=edit_dark.png, Dark=edit_light.png}"
+                         Command="{Binding EditCommand, Source={x:Reference this}}"
+                         HorizontalOptions="End" VerticalOptions="Center" 
+                         BackgroundColor="Transparent"
+                         WidthRequest="25" HeightRequest="25"/>
+            <ImageButton Grid.Column="5"
+                         Source="{AppThemeBinding Light=delete_dark.png, Dark=delete_light.png}"
+                         Command="{Binding DeleteCommand, Source={x:Reference this}}"
+                         CommandParameter="{Binding Team.Id, Source={x:Reference this}}"
+                         HorizontalOptions="End" VerticalOptions="Center" 
+                         BackgroundColor="Transparent"
+                         WidthRequest="25" HeightRequest="25"/>
+        </Grid>
+    </Border>
+</ContentView>
