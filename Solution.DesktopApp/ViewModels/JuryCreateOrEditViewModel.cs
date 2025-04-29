@@ -1,4 +1,6 @@
-﻿namespace Solution.DesktopApp.ViewModels;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Solution.DesktopApp.ViewModels;
 
 public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
     ICompetitionService competitionService,
@@ -25,6 +27,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
     private delegate Task ButtonActionDelagate();
     private ButtonActionDelagate asyncButtonAction;
 
+    [Required]
     [ObservableProperty]
     private string title;
 
@@ -62,6 +65,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
         title = "Update Jury";
     }
 
+    //itt kell meg csinalni fix
     private async Task OnSaveAsync()
     {
         if (!IsFormValid())
@@ -70,7 +74,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
         }
 
         var result = await JuryService.CreateAsync(this);
-        var message = result.IsError ? result.FirstError.Description : "Competition saved.";
+        var message = result.IsError ? result.FirstError.Description : "Jury saved.";
         var title = result.IsError ? "Error" : "Information";
 
         if (!result.IsError)
