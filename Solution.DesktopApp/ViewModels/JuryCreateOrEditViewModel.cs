@@ -2,9 +2,10 @@
 
 namespace Solution.DesktopApp.ViewModels;
 
+[ObservableObject]
 public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
-    ICompetitionService competitionService,
-    IGoogleDriveService googleDriveService) : JuryModel(), IQueryAttributable
+    IJuryService juryService,
+    IGoogleDriveService googleDriveService) : JuryModel, IQueryAttributable
 {
     #region life cycle commands
     public IAsyncRelayCommand AppearingCommand => new AsyncRelayCommand(OnAppearingkAsync);
@@ -27,7 +28,6 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
     private delegate Task ButtonActionDelagate();
     private ButtonActionDelagate asyncButtonAction;
 
-    [Required]
     [ObservableProperty]
     private string title;
 
@@ -49,7 +49,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
         if (!hasValue)
         {
             asyncButtonAction = OnSaveAsync;
-            title = "Add new Jury!";
+            Title = "Add new Jury!";
             return;
         }
 
@@ -62,10 +62,9 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
 
 
         asyncButtonAction = OnUpdateAsync;
-        title = "Update Jury";
+        Title = "Update Jury";
     }
 
-    //itt kell meg csinalni fix
     private async Task OnSaveAsync()
     {
         if (!IsFormValid())
@@ -73,7 +72,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
-        var result = await JuryService.CreateAsync(this);
+        var result = await juryService.CreateAsync(this);
         var message = result.IsError ? result.FirstError.Description : "Jury saved.";
         var title = result.IsError ? "Error" : "Information";
 
@@ -92,10 +91,9 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
-        var result = await competitionService.UpdateAsync(this);
-        var result2 = await competitionService.UpdateAsync2(this.Street.Value);
+        var result = await juryService.UpdateAsync(this);
 
-        var message = result.IsError ? result.FirstError.Description : "Competition updated.";
+        var message = result.IsError ? result.FirstError.Description : "Jury updated.";
         var title = result.IsError ? "Error" : "Information";
 
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");

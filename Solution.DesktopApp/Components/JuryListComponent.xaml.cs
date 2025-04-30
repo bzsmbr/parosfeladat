@@ -38,7 +38,7 @@ public partial class JuryListComponent : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
 
-    public JuryModel Competition
+    public JuryModel Jury
     {
         get => (JuryModel)GetValue(JuryProperty);
         set => SetValue(JuryProperty, value);

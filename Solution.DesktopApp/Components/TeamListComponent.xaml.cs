@@ -38,7 +38,7 @@ public partial class TeamListComponent : ContentView
         set => SetValue(CommandParameterProperty, value);
     }
 
-    public TeamModel Competition
+    public TeamModel Team
     {
         get => (TeamModel)GetValue(TeamProperty);
         set => SetValue(TeamProperty, value);
