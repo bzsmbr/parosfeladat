@@ -14,6 +14,10 @@ public class CompetitionEntity
     public DateTime Date { get; set; }
 
     [Required]
+    [StringLength(256)]
+    public string StreetName { get; set; }
+
+    [Required]
     [StringLength(128)]
     public string Name { get; set; }
 
