@@ -14,9 +14,13 @@ public static class ConfigureDI
 
         builder.Services.AddTransient<CompListViewModel>();
 
+        builder.Services.AddTransient<IJuryService, JuryService>();
+
         builder.Services.AddTransient<JuryCreateOrEditViewModel>();
 
         builder.Services.AddTransient<JuryListViewModel>();
+
+        builder.Services.AddTransient<ITeamService, TeamService>();
 
         builder.Services.AddTransient<TeamCreateOrEditViewModel>();
 

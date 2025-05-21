@@ -10,6 +10,7 @@ public partial class AppShellViewModel
 
     public IAsyncRelayCommand AddNewJuryCommand => new AsyncRelayCommand(OnAddNewJuryAsync);
     public IAsyncRelayCommand ListAllJuriesCommand => new AsyncRelayCommand(OnListAllJuriesAsync);
+
     public IAsyncRelayCommand AddNewTeamCommand => new AsyncRelayCommand(OnAddNewTeamAsync);
     public IAsyncRelayCommand ListAllTeamsCommand => new AsyncRelayCommand(OnListAllTeamsAsync);
 
