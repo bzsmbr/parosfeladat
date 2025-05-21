@@ -6,6 +6,8 @@ public partial class CompetitionModel
 
     public ValidatableObject<StreetModel> Street { get; set; }
 
+    public ValidatableObject<string> StreetName { get; set; }
+
     public ValidatableObject<string> Name { get; set; }
 
     public ValidatableObject<DateTime> Date { get; set; }
@@ -14,6 +16,7 @@ public partial class CompetitionModel
     public CompetitionModel()
     {
         Street = new ValidatableObject<StreetModel>();
+        StreetName = new ValidatableObject<string>();
         Name = new ValidatableObject<string>();
         Date = new ValidatableObject<DateTime>();
 
@@ -33,7 +36,7 @@ public partial class CompetitionModel
         return new CompetitionEntity
         {
             PublicId = Id,
-            StreetId = Street.Value.Id,
+            StreetName = Street.Value.Name.Value,
             Name = Name.Value,
             Date = Date.Value
         };
@@ -42,7 +45,7 @@ public partial class CompetitionModel
     public void ToEntity(CompetitionEntity entity)
     {
         entity.PublicId = Id;
-        entity.StreetId = Street.Value.Id;
+        entity.StreetName = Street.Value.Name.Value;
         entity.Name = Name.Value;
         entity.Date = Date.Value;
     }
@@ -53,6 +56,11 @@ public partial class CompetitionModel
         this.Name.Validations.Add(new IsNotNullOrEmptyRule<string>
         {
             ValidationMessage = "Name field is required!"
+        });
+
+        this.StreetName.Validations.Add(new IsNotNullOrEmptyRule<string>
+        {
+            ValidationMessage = "Street name field is required!"
         });
 
         this.Date.Validations.AddRange(
