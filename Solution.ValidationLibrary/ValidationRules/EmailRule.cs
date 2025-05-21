@@ -2,7 +2,7 @@
 
 public class EmailRule<T> : IValidationRule<T>
 {
-    private readonly Regex _regex = new Regex(@"^([w.-]+)@([w-]+)((.(w){2,3})+)$");
+    private readonly Regex _regex = new Regex("^\\S+@\\S+\\.\\S+$");
 
     public string ValidationMessage { get; set; }
 
