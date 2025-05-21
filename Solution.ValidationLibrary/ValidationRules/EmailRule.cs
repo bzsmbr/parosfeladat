@@ -1,10 +1,13 @@
-﻿namespace Solution.ValidationLibrary.ValidationRules;
+﻿using System.Text.RegularExpressions;
 
-public class EmailRule<T> : IValidationRule<T>
+namespace Solution.ValidationLibrary.ValidationRules
 {
-    private readonly Regex _regex = new Regex(@"^([w.-]+)@([w-]+)((.(w){2,3})+)$");
+    public class EmailRule<T> : IValidationRule<T>
+    {
+        private readonly Regex _regex = new Regex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
 
-    public string ValidationMessage { get; set; }
+        public string ValidationMessage { get; set; }
 
-    public bool Check(object value) => value is string str && _regex.IsMatch(str);
+        public bool Check(object value) => value is string str && _regex.IsMatch(str);
+    }
 }
