@@ -2,11 +2,11 @@ namespace Solution.DesktopApp.Views;
 
 public partial class JuryCreateOrEditView : ContentPage
 {
-    public JuryCreateOrEditView ViewModel => this.BindingContext as JuryCreateOrEditView;
+    public JuryCreateOrEditViewModel ViewModel => this.BindingContext as JuryCreateOrEditViewModel;
 
     public static string Name => nameof(JuryCreateOrEditView);
 
-    public JuryCreateOrEditView(JuryCreateOrEditView viewModel)
+    public JuryCreateOrEditView(JuryCreateOrEditViewModel viewModel)
     {
         this.BindingContext = viewModel;
 

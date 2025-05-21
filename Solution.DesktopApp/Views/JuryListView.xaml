@@ -50,7 +50,7 @@
                                Text="Email"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
-                        <Label Grid.Column="2"
+                        <Label Grid.Column="3"
                                Text="Competitions"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
