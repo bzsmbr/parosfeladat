@@ -23,298 +23,293 @@ namespace Solution.Database.Migrations
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("CityEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(64)
+                    .HasColumnType("nvarchar(64)");
 
-                    b.Property<long>("PostalCode")
-                        .HasColumnType("bigint");
+                b.Property<long>("PostalCode")
+                    .HasColumnType("bigint");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                b.HasIndex("Name")
+                    .IsUnique();
 
-                    b.ToTable("City", (string)null);
-                });
+                b.ToTable("City");
+            });
 
             modelBuilder.Entity("CompetitionEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<DateTime>("Date")
-                        .HasMaxLength(32)
-                        .HasColumnType("datetime2");
+                b.Property<DateTime>("Date")
+                    .HasMaxLength(32)
+                    .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("PublicId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.Property<long>("StreetId")
-                        .HasColumnType("bigint");
+                b.Property<long>("StreetId")
+                    .HasColumnType("bigint");
 
-                    b.Property<string>("StreetName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                b.HasKey("Id");
 
-                    b.HasKey("Id");
+                b.HasIndex("StreetId");
 
-                    b.HasIndex("StreetId");
-
-                    b.ToTable("Competition", (string)null);
-                });
+                b.ToTable("Competition");
+            });
 
             modelBuilder.Entity("CompetitionEntityJuryEntity", b =>
-                {
-                    b.Property<long>("CompetitionsId")
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("CompetitionsId")
+                    .HasColumnType("bigint");
 
-                    b.Property<long>("JuriesId")
-                        .HasColumnType("bigint");
+                b.Property<long>("JuriesId")
+                    .HasColumnType("bigint");
 
-                    b.HasKey("CompetitionsId", "JuriesId");
+                b.HasKey("CompetitionsId", "JuriesId");
 
-                    b.HasIndex("JuriesId");
+                b.HasIndex("JuriesId");
 
-                    b.ToTable("CompetitionEntityJuryEntity", (string)null);
-                });
+                b.ToTable("CompetitionEntityJuryEntity");
+            });
 
             modelBuilder.Entity("CompetitionEntityTeamEntity", b =>
-                {
-                    b.Property<long>("CompetitionsId")
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("CompetitionsId")
+                    .HasColumnType("bigint");
 
-                    b.Property<long>("TeamsId")
-                        .HasColumnType("bigint");
+                b.Property<long>("TeamsId")
+                    .HasColumnType("bigint");
 
-                    b.HasKey("CompetitionsId", "TeamsId");
+                b.HasKey("CompetitionsId", "TeamsId");
 
-                    b.HasIndex("TeamsId");
+                b.HasIndex("TeamsId");
 
-                    b.ToTable("CompetitionEntityTeamEntity", (string)null);
-                });
+                b.ToTable("CompetitionEntityTeamEntity");
+            });
 
             modelBuilder.Entity("JuryEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("PhoneNumber")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("PublicId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("Jury", (string)null);
-                });
+                b.ToTable("Jury");
+            });
 
             modelBuilder.Entity("StreetEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long>("CityId")
-                        .HasColumnType("bigint");
+                b.Property<long>("CityId")
+                    .HasColumnType("bigint");
 
-                    b.Property<long>("HouseNumber")
-                        .HasColumnType("bigint");
+                b.Property<long>("HouseNumber")
+                    .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("CityId");
+                b.HasIndex("CityId");
 
-                    b.ToTable("Street", (string)null);
-                });
+                b.ToTable("Street");
+            });
 
             modelBuilder.Entity("TeamEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.Property<long>("Points")
-                        .HasColumnType("bigint");
+                b.Property<long>("Points")
+                    .HasColumnType("bigint");
 
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("PublicId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                b.HasIndex("Name")
+                    .IsUnique();
 
-                    b.ToTable("Team", (string)null);
-                });
+                b.ToTable("Team");
+            });
 
             modelBuilder.Entity("TeamEntityTeamMemberEntity", b =>
-                {
-                    b.Property<long>("TeamMembersId")
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("TeamMembersId")
+                    .HasColumnType("bigint");
 
-                    b.Property<long>("TeamsId")
-                        .HasColumnType("bigint");
+                b.Property<long>("TeamsId")
+                    .HasColumnType("bigint");
 
-                    b.HasKey("TeamMembersId", "TeamsId");
+                b.HasKey("TeamMembersId", "TeamsId");
 
-                    b.HasIndex("TeamsId");
+                b.HasIndex("TeamsId");
 
-                    b.ToTable("TeamEntityTeamMemberEntity", (string)null);
-                });
+                b.ToTable("TeamEntityTeamMemberEntity");
+            });
 
             modelBuilder.Entity("TeamMemberEntity", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+            {
+                b.Property<long>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(32)
-                        .HasColumnType("nvarchar(32)");
+                b.Property<string>("Name")
+                    .IsRequired()
+                    .HasMaxLength(32)
+                    .HasColumnType("nvarchar(32)");
 
-                    b.Property<string>("PublicId")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                b.Property<string>("PublicId")
+                    .IsRequired()
+                    .HasMaxLength(128)
+                    .HasColumnType("nvarchar(128)");
 
-                    b.HasKey("Id");
+                b.HasKey("Id");
 
-                    b.ToTable("TeamMember", (string)null);
-                });
+                b.ToTable("TeamMember");
+            });
 
             modelBuilder.Entity("CompetitionEntity", b =>
-                {
-                    b.HasOne("StreetEntity", "Street")
-                        .WithMany("Competitions")
-                        .HasForeignKey("StreetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("StreetEntity", "Street")
+                    .WithMany("Competitions")
+                    .HasForeignKey("StreetId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("Street");
-                });
+                b.Navigation("Street");
+            });
 
             modelBuilder.Entity("CompetitionEntityJuryEntity", b =>
-                {
-                    b.HasOne("CompetitionEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CompetitionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CompetitionEntity", null)
+                    .WithMany()
+                    .HasForeignKey("CompetitionsId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("JuryEntity", null)
-                        .WithMany()
-                        .HasForeignKey("JuriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("JuryEntity", null)
+                    .WithMany()
+                    .HasForeignKey("JuriesId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("CompetitionEntityTeamEntity", b =>
-                {
-                    b.HasOne("CompetitionEntity", null)
-                        .WithMany()
-                        .HasForeignKey("CompetitionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CompetitionEntity", null)
+                    .WithMany()
+                    .HasForeignKey("CompetitionsId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("TeamEntity", null)
-                        .WithMany()
-                        .HasForeignKey("TeamsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("TeamEntity", null)
+                    .WithMany()
+                    .HasForeignKey("TeamsId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("StreetEntity", b =>
-                {
-                    b.HasOne("CityEntity", "City")
-                        .WithMany("Streets")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("CityEntity", "City")
+                    .WithMany("Streets")
+                    .HasForeignKey("CityId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.Navigation("City");
-                });
+                b.Navigation("City");
+            });
 
             modelBuilder.Entity("TeamEntityTeamMemberEntity", b =>
-                {
-                    b.HasOne("TeamMemberEntity", null)
-                        .WithMany()
-                        .HasForeignKey("TeamMembersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+            {
+                b.HasOne("TeamMemberEntity", null)
+                    .WithMany()
+                    .HasForeignKey("TeamMembersId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
 
-                    b.HasOne("TeamEntity", null)
-                        .WithMany()
-                        .HasForeignKey("TeamsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
+                b.HasOne("TeamEntity", null)
+                    .WithMany()
+                    .HasForeignKey("TeamsId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+            });
 
             modelBuilder.Entity("CityEntity", b =>
-                {
-                    b.Navigation("Streets");
-                });
+            {
+                b.Navigation("Streets");
+            });
 
             modelBuilder.Entity("StreetEntity", b =>
-                {
-                    b.Navigation("Competitions");
-                });
+            {
+                b.Navigation("Competitions");
+            });
 #pragma warning restore 612, 618
         }
     }

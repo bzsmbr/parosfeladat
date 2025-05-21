@@ -16,34 +16,34 @@ public class AppDbContext() : DbContext
 
     private static string connectionString = string.Empty;
 
-	static AppDbContext()
-	{
-		connectionString = GetConnectionString();
-	}
+    static AppDbContext()
+    {
+        connectionString = GetConnectionString();
+    }
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
-		ArgumentNullException.ThrowIfNull(connectionString);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        ArgumentNullException.ThrowIfNull(connectionString);
 
-		base.OnConfiguring(optionsBuilder);
+        base.OnConfiguring(optionsBuilder);
 
-		optionsBuilder.UseSqlServer(connectionString);
-	}
+        optionsBuilder.UseSqlServer(connectionString);
+    }
 
-	private static string GetConnectionString()
-	{
+    private static string GetConnectionString()
+    {
 #if DEBUG
-		var file = "appSettings.Development.json";
+        var file = "appSettings.Development.json";
 #else
         var file = "appSettings.Production.json";
 #endif
         var stream = new MemoryStream(File.ReadAllBytes($"{file}"));
 
-		var config = new ConfigurationBuilder()
-					.AddJsonStream(stream)
-					.Build();
+        var config = new ConfigurationBuilder()
+                    .AddJsonStream(stream)
+                    .Build();
 
-		var cs = config.GetValue<string>("SqlConnectionString");
-		return cs;
-	}
+        var cs = config.GetValue<string>("SqlConnectionString");
+        return cs;
+    }
 }
