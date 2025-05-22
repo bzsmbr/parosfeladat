@@ -17,7 +17,7 @@ namespace Solution.Database.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "9.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -71,9 +71,7 @@ namespace Solution.Database.Migrations
                 b.Property<long>("StreetId")
                     .HasColumnType("bigint");
 
-                b.HasKey("Id");
-
-                b.HasIndex("StreetId");
+                    b.HasKey("Id");
 
                 b.ToTable("Competition");
             });
