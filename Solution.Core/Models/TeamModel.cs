@@ -8,6 +8,10 @@ public partial class TeamModel
 
     public ValidatableObject<uint?> Points { get; set; }
 
+    public string ImageId { get; set; }
+
+    public string WebContentLink { get; set; }
+
     public TeamModel()
     {
         Name = new ValidatableObject<string>();
@@ -21,6 +25,9 @@ public partial class TeamModel
         this.Id = entity.PublicId;
         this.Name.Value = entity.Name;
         this.Points.Value = entity.Points;
+
+        this.ImageId = entity.ImageId;
+        this.WebContentLink = entity.WebContentLink;
     }
 
     public TeamEntity ToEntity()
@@ -29,7 +36,10 @@ public partial class TeamModel
         {
             PublicId = Id,
             Name = Name.Value,
-            Points = Points.Value ?? 0
+            Points = Points.Value ?? 0,
+
+            ImageId = ImageId,
+            WebContentLink = WebContentLink,
         };
     }
 
@@ -38,6 +48,9 @@ public partial class TeamModel
         entity.PublicId = Id;
         entity.Name = Name.Value;
         entity.Points = Points.Value ?? 0;
+
+        entity.ImageId = ImageId;
+        entity.WebContentLink = WebContentLink;
     }
 
     private void AddValidators()

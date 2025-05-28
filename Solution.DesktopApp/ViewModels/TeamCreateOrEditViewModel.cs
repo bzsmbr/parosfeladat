@@ -21,6 +21,8 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
     #region event commands
     public IAsyncRelayCommand SubmitCommand => new AsyncRelayCommand(OnSubmitAsync);
 
+    public IAsyncRelayCommand ImageSelectCommand => new AsyncRelayCommand(OnImageSelectAsync);
+
     #endregion
 
     private delegate Task ButtonActionDelagate();
@@ -28,6 +30,11 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
 
     [ObservableProperty]
     private string title;
+
+    [ObservableProperty]
+    private ImageSource image;
+
+    private FileResult selectedFile = null;
 
     private async Task OnAppearingkAsync()
     {
@@ -69,6 +76,8 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
+        await UploaImageAsync();
+
         var result = await teamService.CreateAsync(this);
         var message = result.IsError ? result.FirstError.Description : "Team saved.";
         var title = result.IsError ? "Error" : "Information";
@@ -88,6 +97,8 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
+        await UploaImageAsync();
+
         var result = await teamService.UpdateAsync(this);
 
         var message = result.IsError ? result.FirstError.Description : "Team updated.";
@@ -100,6 +111,11 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
     {
         this.Name.Value = null;
         this.Points.Value = null;
+
+        this.Image = null;
+        this.selectedFile = null;
+        this.WebContentLink = null;
+        this.ImageId = null;
     }
 
     private bool IsFormValid()
@@ -111,4 +127,40 @@ public partial class TeamCreateOrEditViewModel(AppDbContext dbContext,
         return this.Name.IsValid &&
                this.Points.IsValid;
     }
+
+    private async Task OnImageSelectAsync()
+    {
+        selectedFile = await FilePicker.PickAsync(new PickOptions
+        {
+            FileTypes = FilePickerFileType.Images,
+            PickerTitle = "Please select the team group image"
+        });
+
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var stream = await selectedFile.OpenReadAsync();
+        Image = ImageSource.FromStream(() => stream);
+    }
+
+    private async Task UploaImageAsync()
+    {
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var imageUploadResult = await googleDriveService.UploadFileAsync(selectedFile);
+
+        var message = imageUploadResult.IsError ? imageUploadResult.FirstError.Description : "Team image uploaded.";
+        var title = imageUploadResult.IsError ? "Error" : "Information";
+
+        await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+
+        this.ImageId = imageUploadResult.IsError ? null : imageUploadResult.Value.Id;
+        this.WebContentLink = imageUploadResult.IsError ? null : imageUploadResult.Value.WebContentLink;
+    }
+
 }

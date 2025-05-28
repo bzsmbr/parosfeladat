@@ -17,6 +17,12 @@ public class TeamEntity
     [Required]
     public uint? Points { get; set; }
 
+    [StringLength(128)]
+    public string? ImageId { get; set; }
+
+    [StringLength(512)]
+    public string? WebContentLink { get; set; }
+
     public virtual IReadOnlyCollection<CompetitionEntity> Competitions { get; set; }
 
     public virtual IReadOnlyCollection<TeamMemberEntity> TeamMembers { get; set; }
