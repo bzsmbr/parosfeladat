@@ -65,6 +65,19 @@
             </MenuFlyoutItem>
         </MenuBarItem>
 
+        <MenuBarItem Text="Team member">
+            <MenuFlyoutItem Text="Add New" Command="{Binding AddNewTeamMemberCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+
+            <MenuFlyoutItem Text="List All" Command="{Binding ListAllTeamMembersCommand}">
+                <MenuFlyoutItem.IconImageSource>
+                    <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black" />
+                </MenuFlyoutItem.IconImageSource>
+            </MenuFlyoutItem>
+        </MenuBarItem>
 
 
     </Shell.MenuBarItems>

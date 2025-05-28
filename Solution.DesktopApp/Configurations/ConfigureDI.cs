@@ -8,11 +8,13 @@ public static class ConfigureDI
 	{
 		builder.Services.AddTransient<MainViewModel>();
 
+
         builder.Services.AddTransient<ICompetitionService, CompetitionService>();
 
         builder.Services.AddTransient<CompCreateOrEditViewModel>();
 
         builder.Services.AddTransient<CompListViewModel>();
+
 
         builder.Services.AddTransient<IJuryService, JuryService>();
 
@@ -20,11 +22,20 @@ public static class ConfigureDI
 
         builder.Services.AddTransient<JuryListViewModel>();
 
+
         builder.Services.AddTransient<ITeamService, TeamService>();
 
         builder.Services.AddTransient<TeamCreateOrEditViewModel>();
 
         builder.Services.AddTransient<TeamListViewModel>();
+
+
+        builder.Services.AddTransient<ITeamMemberService, TeamMemberService>();
+
+        builder.Services.AddTransient<TeamMemberCreateOrEditViewModel>();
+
+        builder.Services.AddTransient<TeamMemberListViewModel>();
+
 
         builder.Services.AddTransient<MainView>();
 

@@ -14,6 +14,9 @@ public partial class AppShellViewModel
     public IAsyncRelayCommand AddNewTeamCommand => new AsyncRelayCommand(OnAddNewTeamAsync);
     public IAsyncRelayCommand ListAllTeamsCommand => new AsyncRelayCommand(OnListAllTeamsAsync);
 
+    public IAsyncRelayCommand AddNewTeamMemberCommand => new AsyncRelayCommand(OnAddNewTeamMemberAsync);
+    public IAsyncRelayCommand ListAllTeamMembersCommand => new AsyncRelayCommand(OnListAllTeamMembersAsync);
+
 
     private async Task OnExitAsync() => Application.Current.Quit();
 
@@ -51,5 +54,17 @@ public partial class AppShellViewModel
     {
         Shell.Current.ClearNavigationStack();
         await Shell.Current.GoToAsync(TeamListView.Name);
+    }
+
+    private async Task OnAddNewTeamMemberAsync()
+    {
+        Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(TeamMemberCreateOrEditView.Name);
+    }
+
+    private async Task OnListAllTeamMembersAsync()
+    {
+        Shell.Current.ClearNavigationStack();
+        await Shell.Current.GoToAsync(TeamMemberListView.Name);
     }
 }

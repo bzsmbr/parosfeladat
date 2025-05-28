@@ -103,11 +103,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Components\TeamMemberListComponent.xaml.cs">
+	    <DependentUpon>TeamMemberListComponent.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Components\TeamListComponent.xaml.cs">
 	    <DependentUpon>TeamListComponent.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Components\JuryListComponent.xaml.cs">
 	    <DependentUpon>JuryListComponent.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\TeamMemberCreateOrEditView.xaml.cs">
+	    <DependentUpon>TeamMemberCreateOrEditView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\TeamMemberListView.xaml.cs">
+	    <DependentUpon>TeamMemberListView.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\TeamListView.xaml.cs">
 	    <DependentUpon>TeamListView.xaml</DependentUpon>
@@ -140,6 +149,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Components\TeamMemberListComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Components\TeamListComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -149,7 +161,13 @@
 	  <MauiXaml Update="Views\JuryCreateOrEditView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\TeamMemberCreateOrEditView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TeamCreateOrEditView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\TeamMemberListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\TeamListView.xaml">
