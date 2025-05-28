@@ -6,6 +6,11 @@ public partial class TeamMemberModel
 
     public ValidatableObject<string> Name { get; set; }
 
+    public string ImageId { get; set; }
+
+    public string WebContentLink { get; set; }
+
+
     public TeamMemberModel()
     {
         Name = new ValidatableObject<string>();
@@ -17,6 +22,11 @@ public partial class TeamMemberModel
     {
         this.Id = entity.PublicId;
         this.Name.Value = entity.Name;
+
+        this.ImageId = entity.ImageId;
+        this.WebContentLink = entity.WebContentLink;
+
+
     }
 
     public TeamMemberEntity ToEntity()
@@ -25,6 +35,9 @@ public partial class TeamMemberModel
         {
             PublicId = Id,
             Name = Name.Value,
+
+            ImageId = ImageId,
+            WebContentLink = WebContentLink,
         };
     }
 
@@ -32,6 +45,9 @@ public partial class TeamMemberModel
     {
         entity.PublicId = Id;
         entity.Name = Name.Value;
+
+        entity.ImageId = ImageId;
+        entity.WebContentLink = WebContentLink;
     }
 
     private void AddValidators()

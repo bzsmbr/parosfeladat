@@ -18,6 +18,8 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
     #region event commands
     public IAsyncRelayCommand SubmitCommand => new AsyncRelayCommand(OnSubmitAsync);
 
+    public IAsyncRelayCommand ImageSelectCommand => new AsyncRelayCommand(OnImageSelectAsync);
+
     #endregion
 
     private delegate Task ButtonActionDelagate();
@@ -25,6 +27,11 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
 
     [ObservableProperty]
     private string title;
+
+    [ObservableProperty]
+    private ImageSource image;
+
+    private FileResult selectedFile = null;
 
     private async Task OnAppearingkAsync()
     {
@@ -44,7 +51,7 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
         if (!hasValue)
         {
             asyncButtonAction = OnSaveAsync;
-            Title = "Add new team member!";
+            Title = "Add new contender!";
             return;
         }
 
@@ -55,7 +62,7 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
 
 
         asyncButtonAction = OnUpdateAsync;
-        Title = "Update team member";
+        Title = "Updated contender";
     }
 
     private async Task OnSaveAsync()
@@ -65,9 +72,12 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
+        await UploaImageAsync();
+
         var result = await teamMemberService.CreateAsync(this);
         var message = result.IsError ? result.FirstError.Description : "Team member saved.";
         var title = result.IsError ? "Error" : "Information";
+
 
         if (!result.IsError)
         {
@@ -84,6 +94,8 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
             return;
         }
 
+        await UploaImageAsync();
+
         var result = await teamMemberService.UpdateAsync(this);
 
         var message = result.IsError ? result.FirstError.Description : "Team member updated.";
@@ -95,6 +107,11 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
     private void ClearForm()
     {
         this.Name.Value = null;
+
+        this.Image = null;
+        this.selectedFile = null;
+        this.WebContentLink = null;
+        this.ImageId = null;
     }
 
     private bool IsFormValid()
@@ -103,5 +120,40 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
 
 
         return this.Name.IsValid;
+    }
+
+    private async Task OnImageSelectAsync()
+    {
+        selectedFile = await FilePicker.PickAsync(new PickOptions
+        {
+            FileTypes = FilePickerFileType.Images,
+            PickerTitle = "Please select the contester profile picture"
+        });
+
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var stream = await selectedFile.OpenReadAsync();
+        Image = ImageSource.FromStream(() => stream);
+    }
+
+    private async Task UploaImageAsync()
+    {
+        if (selectedFile is null)
+        {
+            return;
+        }
+
+        var imageUploadResult = await googleDriveService.UploadFileAsync(selectedFile);
+
+        var message = imageUploadResult.IsError ? imageUploadResult.FirstError.Description : "Profile picture uploaded.";
+        var title = imageUploadResult.IsError ? "Error" : "Information";
+
+        await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+
+        this.ImageId = imageUploadResult.IsError ? null : imageUploadResult.Value.Id;
+        this.WebContentLink = imageUploadResult.IsError ? null : imageUploadResult.Value.WebContentLink;
     }
 }

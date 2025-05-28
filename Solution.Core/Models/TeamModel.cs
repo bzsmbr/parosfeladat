@@ -39,7 +39,7 @@ public partial class TeamModel
             Points = Points.Value ?? 0,
 
             ImageId = ImageId,
-            WebContentLink = WebContentLink,
+            WebContentLink = WebContentLink
         };
     }
 

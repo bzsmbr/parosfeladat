@@ -65,7 +65,7 @@
             </MenuFlyoutItem>
         </MenuBarItem>
 
-        <MenuBarItem Text="Team member">
+        <MenuBarItem Text="Contenders">
             <MenuFlyoutItem Text="Add New" Command="{Binding AddNewTeamMemberCommand}">
                 <MenuFlyoutItem.IconImageSource>
                     <FontImageSource Glyph="&#x25B6;" FontFamily="Arial" Color="Black"/>

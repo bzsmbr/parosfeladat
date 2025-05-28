@@ -41,7 +41,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0"
-                               Text="Team group pic"
+                               Text="Team group picture"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
                         <Label Grid.Column="1"

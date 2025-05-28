@@ -24,7 +24,9 @@
         var result = await dbContext.TeamMembers.AsNoTracking()
                                 .Where(x => x.PublicId == model.Id)
                                 .ExecuteUpdateAsync(x => x.SetProperty(p => p.PublicId, model.Id)
-                                                          .SetProperty(p => p.Name, model.Name.Value));
+                                                          .SetProperty(p => p.Name, model.Name.Value)
+                                                          .SetProperty(p => p.ImageId, model.ImageId)
+                                                          .SetProperty(p => p.WebContentLink, model.WebContentLink));
         return result > 0 ? Result.Success : Error.NotFound();
     }
     public async Task<ErrorOr<Success>> DeleteAsync(string teamMemberId)

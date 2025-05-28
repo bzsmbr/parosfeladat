@@ -23,6 +23,7 @@
                         CacheValidity="10:00:00:00" />
                 </Image.Source>
             </Image>
+            
             <Label Grid.Column="1"
                    Text="{Binding Team.Name.Value, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
