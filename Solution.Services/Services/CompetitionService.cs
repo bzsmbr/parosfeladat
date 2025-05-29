@@ -12,11 +12,9 @@
             return Error.Conflict(description: "Competition already exists!");
         }
 
-        // Check if the Street exists
         var street = await dbContext.Streets.FirstOrDefaultAsync(s => s.Id == model.Street.Value.Id);
         if (street == null)
         {
-            // Create and save the Street entity if it does not exist
             street = model.Street.Value.ToEntity();
             await dbContext.Streets.AddAsync(street);
             await dbContext.SaveChangesAsync();
@@ -24,7 +22,7 @@
 
         var competition = model.ToEntity();
         competition.PublicId = Guid.NewGuid().ToString();
-        competition.StreetId = street.Id; // Set the StreetId
+        competition.StreetId = street.Id;
 
         await dbContext.Competitions.AddAsync(competition);
         await dbContext.SaveChangesAsync();

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Solution.DesktopApp.ViewModels;
+﻿namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
 public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
@@ -32,8 +30,7 @@ public partial class JuryCreateOrEditViewModel(AppDbContext dbContext,
     private string title;
 
     private async Task OnAppearingkAsync()
-    {
-    }
+    { }
 
     private async Task OnDisappearingAsync()
     {

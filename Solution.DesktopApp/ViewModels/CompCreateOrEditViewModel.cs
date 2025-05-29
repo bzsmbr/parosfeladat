@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Solution.Core.Models;
-using System;
 
 namespace Solution.DesktopApp.ViewModels;
 
