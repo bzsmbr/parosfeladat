@@ -4,7 +4,7 @@ using System.Windows.Input;
 namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
-public partial class CompListViewModel(ICompetitionService competitionService)
+public partial class CompListViewModel(ICompetitionService competitionService, IJuryService juryService)
 {
     #region life cycle commands
     public IAsyncRelayCommand AppearingCommand => new AsyncRelayCommand(OnAppearingAsync);
@@ -22,6 +22,14 @@ public partial class CompListViewModel(ICompetitionService competitionService)
 
     [ObservableProperty]
     private ObservableCollection<CompetitionModel> competitions;
+
+    [ObservableProperty]
+    private CompetitionModel expandedCompetition;
+
+    [ObservableProperty]
+    private ObservableCollection<JuryModel> expandedCompetitionJuries;
+
+    public IAsyncRelayCommand<CompetitionModel> ToggleExpandCompetitionCommand => new AsyncRelayCommand<CompetitionModel>(ToggleExpandCompetitionAsync);
 
     private int page = 1;
     private bool isLoading = false;
@@ -96,5 +104,21 @@ public partial class CompListViewModel(ICompetitionService competitionService)
         }
 
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+    }
+
+    private async Task ToggleExpandCompetitionAsync(CompetitionModel competition)
+    {
+        if (ExpandedCompetition == competition)
+        {
+            ExpandedCompetition = null;
+            ExpandedCompetitionJuries = null;
+            return;
+        }
+        ExpandedCompetition = competition;
+        var juriesResult = await juryService.GetByCompetitionIdAsync(competition.Id);
+        if (!juriesResult.IsError)
+            ExpandedCompetitionJuries = new ObservableCollection<JuryModel>(juriesResult.Value);
+        else
+            ExpandedCompetitionJuries = new ObservableCollection<JuryModel>();
     }
 }

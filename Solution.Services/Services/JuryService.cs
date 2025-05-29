@@ -71,4 +71,14 @@
 
         return paginationModel;
     }
+    public async Task<ErrorOr<List<JuryModel>>> GetByCompetitionIdAsync(string competitionId)
+    {
+        var competition = await dbContext.Competitions
+            .Include(c => c.Juries)
+            .FirstOrDefaultAsync(c => c.PublicId == competitionId);
+        if (competition == null)
+            return Error.NotFound(description: "Competition not found.");
+        var juries = competition.Juries.Select(j => new JuryModel(j)).ToList();
+        return juries;
+    }
 }
