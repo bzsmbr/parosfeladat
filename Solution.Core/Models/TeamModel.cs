@@ -12,10 +12,13 @@ public partial class TeamModel
 
     public string WebContentLink { get; set; }
 
+    public List<CompetitionModel> AssignedCompetitions { get; set; } = new();
+
     public TeamModel()
     {
         Name = new ValidatableObject<string>();
         Points = new ValidatableObject<uint?>();
+        AssignedCompetitions = new List<CompetitionModel>();
 
         AddValidators();
     }
@@ -28,6 +31,11 @@ public partial class TeamModel
 
         this.ImageId = entity.ImageId;
         this.WebContentLink = entity.WebContentLink;
+
+        if (entity.Competitions != null)
+        {
+            this.AssignedCompetitions = entity.Competitions.Select(c => new CompetitionModel(c)).ToList();
+        }
     }
 
     public TeamEntity ToEntity()
@@ -37,7 +45,6 @@ public partial class TeamModel
             PublicId = Id,
             Name = Name.Value,
             Points = Points.Value ?? 0,
-
             ImageId = ImageId,
             WebContentLink = WebContentLink
         };
@@ -48,7 +55,6 @@ public partial class TeamModel
         entity.PublicId = Id;
         entity.Name = Name.Value;
         entity.Points = Points.Value ?? 0;
-
         entity.ImageId = ImageId;
         entity.WebContentLink = WebContentLink;
     }

@@ -9,12 +9,15 @@ public partial class JuryModel
     public ValidatableObject<string> PhoneNumber { get; set; }
 
     public ValidatableObject<string> Email { get; set; }
+    
+    public List<CompetitionModel> AssignedCompetitions { get; set; }
 
     public JuryModel()
     {
         Name = new ValidatableObject<string>();
         PhoneNumber = new ValidatableObject<string>();
         Email = new ValidatableObject<string>();
+        AssignedCompetitions = new List<CompetitionModel>();
 
         AddValidators();
     }
@@ -25,6 +28,11 @@ public partial class JuryModel
         this.Name.Value = entity.Name;
         this.PhoneNumber.Value = entity.PhoneNumber;
         this.Email.Value = entity.Email;
+        
+        if (entity.Competitions != null)
+        {
+            this.AssignedCompetitions = entity.Competitions.Select(c => new CompetitionModel(c)).ToList();
+        }
     }
 
     public JuryEntity ToEntity()
@@ -53,8 +61,8 @@ public partial class JuryModel
             ValidationMessage = "Name field is required!"
         });
 
-        this.PhoneNumber.Validations.AddRange(
-        [
+        this.PhoneNumber.Validations.AddRange(new List<IValidationRule<string>>
+        {
             new IsNotNullOrEmptyRule<string>
             {
                 ValidationMessage = "PhoneNumber field is required!"
@@ -63,10 +71,10 @@ public partial class JuryModel
             {
                 ValidationMessage = "Incorrect format!"
             }
-        ]);
+        });
 
-        this.Email.Validations.AddRange(
-        [
+        this.Email.Validations.AddRange(new List<IValidationRule<string>>
+        {
             new IsNotNullOrEmptyRule<string>
             {
                 ValidationMessage = "Email field is required!"
@@ -75,6 +83,6 @@ public partial class JuryModel
             {
                 ValidationMessage = "Incorrect format!"
             }
-        ]);
+        });
     }
 }

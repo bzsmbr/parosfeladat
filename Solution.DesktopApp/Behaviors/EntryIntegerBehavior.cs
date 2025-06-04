@@ -6,7 +6,6 @@ public class EntryIntegerBehavior : Behavior<Entry>
 	{
 		base.OnAttachedTo(entry);
 
-		// Perform setup
 		entry.TextChanged += OnTextChanged;
 	}
 
@@ -14,7 +13,6 @@ public class EntryIntegerBehavior : Behavior<Entry>
 	{
 		base.OnDetachingFrom(entry);
 
-		// Perform clean up
 		entry.TextChanged -= OnTextChanged;
 	}
 

@@ -39,6 +39,7 @@
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0"
@@ -73,6 +74,10 @@
                                Text="Juries"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
+                        <Label Grid.Column="8"
+                               Text="Teams"
+                               HorizontalTextAlignment="Center"
+                               Style="{x:StaticResource TableHeader}" />
                     </Grid>
                 </CollectionView.Header>
                 <CollectionView.ItemsLayout>
@@ -80,33 +85,30 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:CompetitionModel">
-                        <VerticalStackLayout>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                    <ColumnDefinition Width="80" />
-                                </Grid.ColumnDefinitions>
-                                <components:CompetitionListComponent Grid.ColumnSpan="7" Competition="{Binding .}" 
-                                                            DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=DeleteCommand}"
-                                                            CommandParameter="{Binding Id}"/>
-                                <Button Grid.Column="7" Text="Show Juries" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ToggleExpandCompetitionCommand}" CommandParameter="{Binding .}" />
-                            </Grid>
-                            <StackLayout IsVisible="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ExpandedCompetition, Converter={StaticResource ReferenceEqualsConverter}, ConverterParameter={Binding .}}">
-                                <CollectionView ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ExpandedCompetitionJuries}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate x:DataType="models:JuryModel">
-                                            <components:JuryListComponent Jury="{Binding .}" />
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </StackLayout>
-                        </VerticalStackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <components:CompetitionListComponent Grid.ColumnSpan="7" Competition="{Binding .}" 
+                                                        DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=DeleteCommand}"
+                                                        CommandParameter="{Binding Id}"/>
+                            <Button Grid.Column="7" 
+                                    Text="View Juries"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ViewJuriesCommand}"
+                                    CommandParameter="{Binding Id}"/>
+                            <Button Grid.Column="8" 
+                                    Text="View Teams"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ViewTeamsCommand}"
+                                    CommandParameter="{Binding Id}"/>
+                        </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.Footer>
@@ -117,5 +119,168 @@
                 </CollectionView.Footer>
             </CollectionView>
         </ScrollView>
+
+        <Border IsVisible="{Binding IsJuriesPopupVisible}"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#202020}"
+                StrokeThickness="1"
+                Stroke="{AppThemeBinding Light=Gray, Dark=LightGray}"
+                StrokeShape="RoundRectangle 10"
+                Margin="50"
+                Grid.RowSpan="3">
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light=Black, Dark=DimGray}"
+                        Offset="0,5"
+                        Radius="15" />
+            </Border.Shadow>
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <VerticalStackLayout Grid.Row="0" Spacing="5">
+                    <Label Text="Assigned Juries" 
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding SelectedCompetitionName}"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,10" />
+                </VerticalStackLayout>
+
+                <Grid Grid.Row="1" BackgroundColor="{AppThemeBinding Light=#E0E0E0, Dark=#404040}" Padding="10,5" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Name" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="1" Text="Phone Number" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Email" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                </Grid>
+
+                <ActivityIndicator Grid.Row="2" 
+                                  IsVisible="{Binding IsLoadingJuries}"
+                                  IsRunning="{Binding IsLoadingJuries}"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  Margin="0,20"
+                                  Color="{AppThemeBinding Light=Blue, Dark=LightBlue}"/>
+
+                <CollectionView Grid.Row="2" 
+                                ItemsSource="{Binding SelectedCompetitionJuries}" 
+                                EmptyView="No juries assigned to this competition"
+                                IsVisible="{Binding IsLoadingJuries, Converter={StaticResource InvertedBoolConverter}}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:JuryModel">
+                            <components:CompetitionJuryListComponent Jury="{Binding .}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Grid VerticalOptions="Center">
+                                <Label Text="No juries assigned to this competition" 
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light=Gray, Dark=Silver}"
+                                       FontSize="15"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+                </CollectionView>
+
+                <Button Grid.Row="3" 
+                        Text="Close" 
+                        Command="{Binding CloseJuriesPopupCommand}"
+                        HorizontalOptions="Center"
+                        Margin="0,20,0,0" />
+            </Grid>
+        </Border>
+
+        <Border IsVisible="{Binding IsTeamsPopupVisible}"
+                BackgroundColor="{AppThemeBinding Light=White, Dark=#202020}"
+                StrokeThickness="1"
+                Stroke="{AppThemeBinding Light=Gray, Dark=LightGray}"
+                StrokeShape="RoundRectangle 10"
+                Margin="50"
+                Grid.RowSpan="3">
+            <Border.Shadow>
+                <Shadow Brush="{AppThemeBinding Light=Black, Dark=DimGray}"
+                        Offset="0,5"
+                        Radius="15" />
+            </Border.Shadow>
+            <Grid Padding="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <VerticalStackLayout Grid.Row="0" Spacing="5">
+                    <Label Text="Assigned Teams" 
+                           FontSize="24" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding SelectedCompetitionName}"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,10" />
+                </VerticalStackLayout>
+                <Grid Grid.Row="1" BackgroundColor="{AppThemeBinding Light=#E0E0E0, Dark=#404040}" Padding="10,5" Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Name" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="1" Text="Points" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    <Label Grid.Column="2" Text="Members" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                </Grid>
+                <ActivityIndicator Grid.Row="2" 
+                                  IsVisible="{Binding IsLoadingTeams}"
+                                  IsRunning="{Binding IsLoadingTeams}"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  Margin="0,20"
+                                  Color="{AppThemeBinding Light=Blue, Dark=LightBlue}"/>
+                <CollectionView Grid.Row="2" 
+                                ItemsSource="{Binding SelectedCompetitionTeams}" 
+                                EmptyView="No teams assigned to this competition"
+                                IsVisible="{Binding IsLoadingTeams, Converter={StaticResource InvertedBoolConverter}}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TeamModel">
+                            <components:CompetitionTeamListComponent Team="{Binding .}"
+                                                                   ViewMembersCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ViewTeamMembersCommand}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Grid VerticalOptions="Center">
+                                <Label Text="No teams assigned to this competition" 
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light=Gray, Dark=Silver}"
+                                       FontSize="15"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+                </CollectionView>
+                <CollectionView Grid.Row="2"
+                                ItemsSource="{Binding SelectedTeamMembers}"
+                                IsVisible="{Binding SelectedTeam}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:TeamMemberModel">
+                            <components:TeamMemberListComponent TeamMember="{Binding .}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Grid.Row="3" 
+                        Text="Close" 
+                        Command="{Binding CloseTeamsPopupCommand}"
+                        HorizontalOptions="Center"
+                        Margin="0,20,0,0" />
+            </Grid>
+        </Border>
     </Grid>
 </ContentPage>

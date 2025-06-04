@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:Solution.DesktopApp.ViewModels"
              xmlns:models="clr-namespace:Solution.Core.Models;assembly=Solution.Core"
              xmlns:converters="clr-namespace:Solution.ValidationLibrary.Converters;assembly=Solution.ValidationLibrary"
+             xmlns:localConverters="clr-namespace:Solution.DesktopApp.Converters"
              xmlns:behaviors="clr-namespace:Solution.DesktopApp.Behaviors"
              x:Class="Solution.DesktopApp.Views.JuryCreateOrEditView"
              x:DataType="viewModels:JuryCreateOrEditViewModel">
@@ -17,49 +18,147 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <localConverters:NotInCollectionConverter x:Key="NotInCollectionConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ScrollView>
+        <Grid RowDefinitions="Auto,*">
+            <Label Grid.Row="0" Text="{Binding Title}" Style="{StaticResource PageTitle}" />
 
-    <StackLayout Orientation="Vertical">
-        <Label Text="{Binding Title}" Style="{StaticResource PageTitle}" />
+            <StackLayout Grid.Row="1" Orientation="Vertical">
+                <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+                    <Label Text="Name" Style="{StaticResource InputLabel}"/>
+                    <Entry Text="{Binding Name.Value}">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding NameValidationCommand}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                       Style="{StaticResource ValidationErrorLabelStyle}" />
+                </VerticalStackLayout>
 
-        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
-            <Label Text="Name" Style="{StaticResource InputLabel}"/>
-            <Entry Text="{Binding Name.Value}">
-                <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding NameValidationCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+                    <Label Text="Phone Number" Style="{StaticResource InputLabel}"/>
+                    <Entry Text="{Binding PhoneNumber.Value}">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding PhoneNumberValidationCommand}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                    Style="{StaticResource ValidationErrorLabelStyle}" />
-        </VerticalStackLayout>
+                </VerticalStackLayout>
 
-        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
-            <Label Text="Phone Number" Style="{StaticResource InputLabel}"/>
-            <Entry Text="{Binding PhoneNumber.Value}">
-                <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding PhoneNumberValidationCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="{Binding PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-           Style="{StaticResource ValidationErrorLabelStyle}" />
-        </VerticalStackLayout>
+                <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+                    <Label Text="Email" Style="{StaticResource InputLabel}"/>
+                    <Entry Text="{Binding Email.Value}">
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding EmailValidationCommand}" />
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                    Style="{StaticResource ValidationErrorLabelStyle}" />
+                </VerticalStackLayout>
 
-        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
-            <Label Text="Email" Style="{StaticResource InputLabel}"/>
-            <Entry Text="{Binding Email.Value}">
-                <Entry.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="TextChanged" Command="{Binding EmailValidationCommand}" />
-                </Entry.Behaviors>
-            </Entry>
-            <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-            Style="{StaticResource ValidationErrorLabelStyle}" />
-        </VerticalStackLayout>
+                <Label Text="Assign Competitions" Style="{StaticResource PageTitle}" FontSize="Large" />
+                
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,10">
+                    <Label Text="{Binding AvailableCompetitions.Count, StringFormat='Available Competitions: {0}'}" 
+                           VerticalOptions="Center" Margin="0,0,10,0" />
+                    <Button Text="Refresh Competitions" 
+                            Command="{Binding RefreshCompetitionsCommand}" 
+                            IsEnabled="{Binding IsLoadingCompetitions, Converter={StaticResource InvertedBoolConverter}}"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                            WidthRequest="180" HeightRequest="40" />
+                </StackLayout>
 
-        <VerticalStackLayout Style="{StaticResource FormLineContainer}">
-            <Button Text="Submit" Command="{Binding SubmitCommand}" WidthRequest="250"/>
-        </VerticalStackLayout>
-    </StackLayout>
+                <Grid HorizontalOptions="Center">
+                    <ActivityIndicator IsRunning="{Binding IsLoadingCompetitions}" 
+                                       IsVisible="{Binding IsLoadingCompetitions}" 
+                                       HorizontalOptions="Center" Margin="0,0,0,10"/>
+                                       
+                </Grid>
 
+                <Grid ColumnDefinitions="*,Auto,*" Style="{StaticResource FormLineContainer}">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Available Competitions" HorizontalOptions="Center" FontAttributes="Bold" />
+                        <Border StrokeThickness="1" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                StrokeShape="RoundRectangle 5,5,5,5" Padding="5" Margin="0,5">
+                            <CollectionView ItemsSource="{Binding AvailableCompetitions}" 
+                                          SelectionMode="Single" HeightRequest="300">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:CompetitionModel">
+                                        <Grid Padding="5">
+                                            <Frame BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
+                                                   Padding="10" Margin="2"
+                                                   IsVisible="{Binding ., Converter={StaticResource NotInCollectionConverter}, ConverterParameter={Binding Source={RelativeSource AncestorType={x:Type viewModels:JuryCreateOrEditViewModel}}, Path=SelectedCompetitions}}">
+                                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                                    <Label Grid.Row="0" Text="{Binding Name.Value}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                                    <Label Grid.Row="1" Text="{Binding Date.Value, StringFormat='{0:yyyy-MM-dd}'}" />
+                                                    <Button Grid.Row="2" Text="Add" 
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:JuryCreateOrEditViewModel}}, Path=AddCompetitionCommand}" 
+                                                            CommandParameter="{Binding .}" 
+                                                            HorizontalOptions="End" 
+                                                            FontSize="Small"
+                                                            Padding="10,5"
+                                                            BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}" />
+                                                </Grid>
+                                            </Frame>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                        <Label Text="No available competitions" HorizontalOptions="Center" />
+                                        <Label Text="Please check if competitions exist in the database" 
+                                               FontSize="Small" TextColor="Gray" 
+                                               HorizontalOptions="Center" />
+                                    </StackLayout>
+                                </CollectionView.EmptyView>
+                            </CollectionView>
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2">
+                        <Label Text="Selected Competitions" HorizontalOptions="Center" FontAttributes="Bold" />
+                        <Border StrokeThickness="1" Stroke="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}"
+                                StrokeShape="RoundRectangle 5,5,5,5" Padding="5" Margin="0,5">
+                            <CollectionView ItemsSource="{Binding SelectedCompetitions}" 
+                                          SelectionMode="Single" HeightRequest="300">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:CompetitionModel">
+                                        <Grid Padding="5">
+                                            <Frame BorderColor="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" 
+                                                   BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray950}}"
+                                                   Padding="10" Margin="2">
+                                                <Grid RowDefinitions="Auto,Auto,Auto">
+                                                    <Label Grid.Row="0" Text="{Binding Name.Value}" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                                    <Label Grid.Row="1" Text="{Binding Date.Value, StringFormat='{0:yyyy-MM-dd}'}" />
+                                                    <Button Grid.Row="2" Text="Remove" 
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:JuryCreateOrEditViewModel}}, Path=RemoveCompetitionCommand}" 
+                                                            CommandParameter="{Binding .}" 
+                                                            HorizontalOptions="End" 
+                                                            FontSize="Small"
+                                                            Padding="10,5"
+                                                            BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Tertiary}}" />
+                                                </Grid>
+                                            </Frame>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                                <CollectionView.EmptyView>
+                                    <Label Text="No competitions selected" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </CollectionView.EmptyView>
+                            </CollectionView>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
+                <VerticalStackLayout Style="{StaticResource FormLineContainer}">
+                    <Button Text="Submit" Command="{Binding SubmitCommand}" WidthRequest="250"/>
+                </VerticalStackLayout>
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

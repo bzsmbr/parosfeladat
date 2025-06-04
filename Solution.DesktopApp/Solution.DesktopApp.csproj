@@ -104,6 +104,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Components\CompetitionJuryListComponent.xaml.cs">
+	    <DependentUpon>CompetitionJuryListComponent.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Components\TeamMemberListComponent.xaml.cs">
 	    <DependentUpon>TeamMemberListComponent.xaml</DependentUpon>
 	  </Compile>
@@ -150,11 +153,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Components\CompetitionJuryListComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Components\CompetitionTeamListComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Components\TeamMemberListComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Components\TeamListComponent.xaml">
-	    <Generator>MSBuild:Compile</Generator>
+	    <Generator></Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Components\JuryListComponent.xaml">
 	    <Generator>MSBuild:Compile</Generator>

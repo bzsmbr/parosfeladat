@@ -27,7 +27,7 @@ public class AppDbContext() : DbContext
 
         base.OnConfiguring(optionsBuilder);
 
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseSqlServer(connectionString, o => o.UseCompatibilityLevel(120));
     }
 
     private static string GetConnectionString()

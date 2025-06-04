@@ -1,4 +1,13 @@
-﻿namespace Solution.DesktopApp.ViewModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Solution.Core.Models;
+using Solution.Services.Services;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Microsoft.Maui.Storage;
+using Microsoft.Maui.Controls;
+using ErrorOr;
+
+namespace Solution.DesktopApp.ViewModels;
 
 [ObservableObject]
 public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
@@ -12,14 +21,12 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
 
     #region validation commands
     public IRelayCommand NameValidationCommand => new RelayCommand(() => this.Name.Validate());
-
     #endregion
 
     #region event commands
     public IAsyncRelayCommand SubmitCommand => new AsyncRelayCommand(OnSubmitAsync);
-
     public IAsyncRelayCommand ImageSelectCommand => new AsyncRelayCommand(OnImageSelectAsync);
-
+    public IAsyncRelayCommand RefreshTeamsCommand => new AsyncRelayCommand(LoadAvailableTeamsAsync);
     #endregion
 
     private delegate Task ButtonActionDelagate();
@@ -31,94 +38,156 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
     [ObservableProperty]
     private ImageSource image;
 
+    [ObservableProperty]
+    private ObservableCollection<TeamModel> availableTeams;
+
+    [ObservableProperty]
+    private ObservableCollection<TeamModel> selectedTeams;
+
+    [ObservableProperty]
+    private bool isLoadingTeams;
+
     private FileResult selectedFile = null;
 
     private async Task OnAppearingkAsync()
     {
+        if (AvailableTeams == null)
+            AvailableTeams = new ObservableCollection<TeamModel>();
+        if (SelectedTeams == null)
+            SelectedTeams = new ObservableCollection<TeamModel>();
+        await LoadAvailableTeamsAsync();
     }
 
-    private async Task OnDisappearingAsync()
+    private async Task OnDisappearingAsync() { }
+
+    private async Task LoadAvailableTeamsAsync()
     {
+        IsLoadingTeams = true;
+        try
+        {
+            var result = await dbContext.Teams
+                .AsNoTracking()
+                .Select(t => new TeamModel(t))
+                .ToListAsync();
+            AvailableTeams = new ObservableCollection<TeamModel>(result ?? new List<TeamModel>());
+            if (!string.IsNullOrEmpty(Id) && this.AssignedTeams != null)
+            {
+                SelectedTeams = new ObservableCollection<TeamModel>(
+                    this.AssignedTeams.Where(at => AvailableTeams.Any(t => t.Id == at.Id)).ToList());
+            }
+        }
+        catch (Exception ex)
+        {
+        }
+        finally
+        {
+            IsLoadingTeams = false;
+        }
     }
 
     private async Task OnSubmitAsync() => await asyncButtonAction();
 
-    public async void ApplyQueryAttributes(IDictionary<string, object> query)
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-
+        if (AvailableTeams == null)
+            AvailableTeams = new ObservableCollection<TeamModel>();
+        if (SelectedTeams == null)
+            SelectedTeams = new ObservableCollection<TeamModel>();
         bool hasValue = query.TryGetValue("TeamMember", out object result);
-
         if (!hasValue)
         {
             asyncButtonAction = OnSaveAsync;
             Title = "Add new contender!";
             return;
         }
-
         TeamMemberModel teamMember = result as TeamMemberModel;
-
-        this.Id = teamMember.Id;
-        this.Name.Value = teamMember.Name.Value;
-
-
+        this.Id = teamMember?.Id;
+        this.Name.Value = teamMember?.Name?.Value;
+        this.ImageId = teamMember?.ImageId;
+        this.WebContentLink = teamMember?.WebContentLink;
+        this.AssignedTeams = teamMember?.AssignedTeams ?? new List<TeamModel>();
+        if (this.AssignedTeams?.Count > 0)
+            SelectedTeams = new ObservableCollection<TeamModel>(this.AssignedTeams);
         asyncButtonAction = OnUpdateAsync;
-        Title = "Updated contender";
+        Title = "Update Contender";
     }
 
     private async Task OnSaveAsync()
     {
-        if (!IsFormValid())
+        if (!IsFormValid()) return;
+        await UploadImageAsync();
+        var result = await teamMemberService.CreateAsync(this);
+        if (result.IsError)
         {
+            await Application.Current.MainPage.DisplayAlert("Error", result.FirstError.Description, "OK");
             return;
         }
-
-        await UploaImageAsync();
-
-        var result = await teamMemberService.CreateAsync(this);
-        var message = result.IsError ? result.FirstError.Description : "Team member saved.";
-        var title = result.IsError ? "Error" : "Information";
-
-
-        if (!result.IsError)
+        var teamIds = SelectedTeams.Select(t => t.Id).ToList();
+        var assignmentResult = await teamMemberService.AssignTeamMemberToTeamsAsync(result.Value.Id, teamIds);
+        if (assignmentResult.IsError)
         {
+            await Application.Current.MainPage.DisplayAlert("Warning", $"Team member was created but teams could not be assigned: {assignmentResult.FirstError.Description}", "OK");
+        }
+        else
+        {
+            await Application.Current.MainPage.DisplayAlert("Success", "Team member saved and assigned to teams.", "OK");
             ClearForm();
         }
-
-        await Application.Current.MainPage.DisplayAlert(title, message, "OK");
     }
 
     private async Task OnUpdateAsync()
     {
-        if (!IsFormValid())
+        if (!IsFormValid()) return;
+        await UploadImageAsync();
+        var result = await teamMemberService.UpdateAsync(this);
+        if (result.IsError)
         {
+            await Application.Current.MainPage.DisplayAlert("Error", result.FirstError.Description, "OK");
             return;
         }
+        var teamIds = SelectedTeams.Select(t => t.Id).ToList();
+        var assignmentResult = await teamMemberService.AssignTeamMemberToTeamsAsync(Id, teamIds);
+        if (assignmentResult.IsError)
+        {
+            await Application.Current.MainPage.DisplayAlert("Warning", $"Team member was updated but teams could not be assigned: {assignmentResult.FirstError.Description}", "OK");
+        }
+        else
+        {
+            await Application.Current.MainPage.DisplayAlert("Success", "Team member updated and teams reassigned.", "OK");
+        }
+    }
 
-        await UploaImageAsync();
+    [RelayCommand]
+    private void AddTeam(TeamModel team)
+    {
+        if (team == null) return;
+        if (!SelectedTeams.Any(t => t.Id == team.Id))
+            SelectedTeams.Add(team);
+    }
 
-        var result = await teamMemberService.UpdateAsync(this);
-
-        var message = result.IsError ? result.FirstError.Description : "Team member updated.";
-        var title = result.IsError ? "Error" : "Information";
-
-        await Application.Current.MainPage.DisplayAlert(title, message, "OK");
+    [RelayCommand]
+    private void RemoveTeam(TeamModel team)
+    {
+        if (team == null) return;
+        var teamToRemove = SelectedTeams.FirstOrDefault(t => t.Id == team.Id);
+        if (teamToRemove != null)
+            SelectedTeams.Remove(teamToRemove);
     }
 
     private void ClearForm()
     {
         this.Name.Value = null;
-
         this.Image = null;
         this.selectedFile = null;
         this.WebContentLink = null;
         this.ImageId = null;
+        if (SelectedTeams != null)
+            this.SelectedTeams.Clear();
     }
 
     private bool IsFormValid()
     {
         this.Name.Validate();
-
-
         return this.Name.IsValid;
     }
 
@@ -129,30 +198,18 @@ public partial class TeamMemberCreateOrEditViewModel(AppDbContext dbContext,
             FileTypes = FilePickerFileType.Images,
             PickerTitle = "Please select the contester profile picture"
         });
-
-        if (selectedFile is null)
-        {
-            return;
-        }
-
+        if (selectedFile is null) return;
         var stream = await selectedFile.OpenReadAsync();
         Image = ImageSource.FromStream(() => stream);
     }
 
-    private async Task UploaImageAsync()
+    private async Task UploadImageAsync()
     {
-        if (selectedFile is null)
-        {
-            return;
-        }
-
+        if (selectedFile is null) return;
         var imageUploadResult = await googleDriveService.UploadFileAsync(selectedFile);
-
         var message = imageUploadResult.IsError ? imageUploadResult.FirstError.Description : "Profile picture uploaded.";
         var title = imageUploadResult.IsError ? "Error" : "Information";
-
         await Application.Current.MainPage.DisplayAlert(title, message, "OK");
-
         this.ImageId = imageUploadResult.IsError ? null : imageUploadResult.Value.Id;
         this.WebContentLink = imageUploadResult.IsError ? null : imageUploadResult.Value.WebContentLink;
     }

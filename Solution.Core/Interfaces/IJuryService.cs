@@ -7,4 +7,6 @@
     Task<ErrorOr<List<JuryModel>>> GetAllAsync();
     Task<ErrorOr<PaginationModel<JuryModel>>> GetPagedAsync(int page = 0);
     Task<ErrorOr<List<JuryModel>>> GetByCompetitionIdAsync(string competitionId);
+    Task<ErrorOr<Success>> AssignJuryToCompetitionsAsync(string juryId, List<string> competitionIds);
+    Task<ErrorOr<List<CompetitionModel>>> GetAvailableCompetitionsAsync();
 }

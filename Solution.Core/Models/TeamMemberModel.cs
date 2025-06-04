@@ -10,11 +10,12 @@ public partial class TeamMemberModel
 
     public string WebContentLink { get; set; }
 
+    public List<TeamModel> AssignedTeams { get; set; } = new();
 
     public TeamMemberModel()
     {
         Name = new ValidatableObject<string>();
-
+        AssignedTeams = new List<TeamModel>();
         AddValidators();
     }
 
@@ -22,11 +23,13 @@ public partial class TeamMemberModel
     {
         this.Id = entity.PublicId;
         this.Name.Value = entity.Name;
-
         this.ImageId = entity.ImageId;
         this.WebContentLink = entity.WebContentLink;
-
-
+        
+        if (entity.Teams != null)
+        {
+            this.AssignedTeams = entity.Teams.Select(t => new TeamModel(t)).ToList();
+        }
     }
 
     public TeamMemberEntity ToEntity()
@@ -35,7 +38,6 @@ public partial class TeamMemberModel
         {
             PublicId = Id,
             Name = Name.Value,
-
             ImageId = ImageId,
             WebContentLink = WebContentLink,
         };
@@ -45,7 +47,6 @@ public partial class TeamMemberModel
     {
         entity.PublicId = Id;
         entity.Name = Name.Value;
-
         entity.ImageId = ImageId;
         entity.WebContentLink = WebContentLink;
     }

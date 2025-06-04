@@ -1,5 +1,4 @@
-﻿
-namespace Solution.DesktopApp.Views;
+﻿namespace Solution.DesktopApp.Views;
 
 public partial class CompListView : ContentPage
 {
