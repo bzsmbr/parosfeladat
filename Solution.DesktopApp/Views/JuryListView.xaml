@@ -34,7 +34,6 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
@@ -52,14 +51,10 @@
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
                         <Label Grid.Column="3"
-                               Text="Competitions"
-                               HorizontalTextAlignment="Center"
-                               Style="{x:StaticResource TableHeader}" />
-                        <Label Grid.Column="4"
                                Text="Edit"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />
-                        <Label Grid.Column="5"
+                        <Label Grid.Column="4"
                                Text="Delete"
                                HorizontalTextAlignment="Center"
                                Style="{x:StaticResource TableHeader}" />

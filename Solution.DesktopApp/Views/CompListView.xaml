@@ -38,8 +38,8 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="80" />
                             <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="150" />
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0"
@@ -94,8 +94,8 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="80" />
                                 <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
                             </Grid.ColumnDefinitions>
                             <components:CompetitionListComponent Grid.ColumnSpan="7" Competition="{Binding .}" 
                                                         DeleteCommand="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=DeleteCommand}"
@@ -104,6 +104,7 @@
                                     Text="View Juries"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ViewJuriesCommand}"
                                     CommandParameter="{Binding Id}"/>
+
                             <Button Grid.Column="8" 
                                     Text="View Teams"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:CompListViewModel}}, Path=ViewTeamsCommand}"
