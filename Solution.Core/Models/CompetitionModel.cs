@@ -90,10 +90,6 @@ public partial class CompetitionModel
             new IsNotNullOrEmptyRule<DateTime>
             {
                 ValidationMessage = "Date field is required!"
-            },
-            new MaxDateRule<DateTime>
-            {
-                ValidationMessage = "Date must not be in the future!"
             }
         ]);
     }

@@ -72,6 +72,7 @@ public partial class CompCreateOrEditViewModel(
         if (!hasValue)
         {
             asyncButtonAction = OnSaveAsync;
+            this.Date.Value = DateTime.Now;
             Title = "Add new competition!";
             return;
         }
