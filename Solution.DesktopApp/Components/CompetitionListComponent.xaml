@@ -19,7 +19,7 @@
                    Text="{Binding Competition.Name.Value, Source={x:Reference this}}" 
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="1"
-                   Text="{Binding Competition.Date.Value, Source={x:Reference this}}" 
+                   Text="{Binding Competition.Date.Value, Converter={StaticResource DatetimeToStringConverter}, ConverterParameter='yyyy-MM-dd',  Source={x:Reference this}}"
                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
             <Label Grid.Column="2"
                    Text="{Binding Competition.Street.Value.City.Value.Name, Source={x:Reference this}}" 

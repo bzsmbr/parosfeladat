@@ -6,9 +6,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:converters="clr-namespace:Solution.DesktopApp.Converters">
 
-    <!-- Converters -->
-    <converters:ReferenceEqualsConverter x:Key="ReferenceEqualsConverter" />
-    <converters:BoolToButtonTextConverter x:Key="BoolToButtonTextConverter" />
+    <converters:DatetimeToStringConverter x:Key="DatetimeToStringConverter" />
     <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
     <converters:NotInCollectionConverter x:Key="NotInCollectionConverter" />
     
