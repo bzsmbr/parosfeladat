@@ -49,7 +49,7 @@ public partial class CompetitionModel
             }
             
             this.Name.Value = entity.Name ?? string.Empty;
-            this.Date.Value = entity.Date != default ? entity.Date : DateTime.Now;
+            this.Date.Value = DateTime.Now;
         }
         catch (System.Exception ex)
         {
