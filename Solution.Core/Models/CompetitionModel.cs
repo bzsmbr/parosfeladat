@@ -49,7 +49,7 @@ public partial class CompetitionModel
             }
             
             this.Name.Value = entity.Name ?? string.Empty;
-            this.Date.Value = DateTime.Now;
+            this.Date.Value = entity.Date;
         }
         catch (System.Exception ex)
         {
@@ -65,7 +65,7 @@ public partial class CompetitionModel
             PublicId = Id,
             StreetId = Street?.Value?.Id ?? 0,
             Name = Name?.Value ?? string.Empty,
-            Date = Date?.Value != default ? Date.Value : DateTime.Now
+            Date = Date?.Value ?? DateTime.Now
         };
     }
 
@@ -74,7 +74,7 @@ public partial class CompetitionModel
         entity.PublicId = Id;
         entity.StreetId = Street?.Value?.Id ?? entity.StreetId;
         entity.Name = Name?.Value ?? entity.Name;
-        entity.Date = Date?.Value != default ? Date.Value : entity.Date;
+        entity.Date = Date?.Value ?? entity.Date;
     }
 
     private void AddValidators()

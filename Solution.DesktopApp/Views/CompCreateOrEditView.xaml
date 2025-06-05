@@ -36,7 +36,7 @@
 
         <VerticalStackLayout Style="{StaticResource FormLineContainer}" >
             <Label Text="Date" Style="{StaticResource InputLabel}" />
-            <DatePicker Date="{Binding MaxDateTime}" MaximumDate="{Binding MaxDateTime}"/>
+            <DatePicker Date="{Binding Date.Value}"/>
                 <Label Text="{Binding Date.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
            Style="{StaticResource ValidationErrorLabelStyle}" />
         </VerticalStackLayout>
